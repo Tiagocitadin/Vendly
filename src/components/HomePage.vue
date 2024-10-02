@@ -1,41 +1,32 @@
 <template>
     <div class="home">
       <div class="products">
-  
-        <div class="product">
-          <div class="product-image" style="background-image: url('https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg');"></div>
-          <h4>Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h4>
-          <p class="price">US$ 109.95</p>
+
+        <div  
+        v-for="(product, index) in this.products" :key="index"
+         class="product" >
+          <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}">
+          </div>
+          <h4>{{ product.title }}</h4>
+          <p class="price">{{ product.price.toFixed(2) }}</p>
+          <p class="description">{{ product.description }}</p>
           <button>Add to bag</button>
         </div>
-        <div class="product">
-          <div class="product-image" style="background-image: url('https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg');"></div>
-          <h4>Mens Casual Premium Slim Fit T-Shirts </h4>
-          <p class="price">US$ 22.30</p>
-          <button>Add to bag</button>
-        </div>
-        <div class="product">
-          <div class="product-image" style="background-image: url('https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg');"></div>
-          <h4>Mens Cotton Jacket</h4>
-          <p class="price">US$ 55.99</p>
-          <button>Add to bag</button>
-        </div>
+      
       </div>
     </div>
   </template>
   
   <script>
+  import Products from './Products.vue';
   
   export default {
     name: 'HomePage',
-    data() {
-      return {
-        
-      }
-    },
   
-    methods: {
-     
+    computed: {
+      products() {
+        return this.$store.state.products;
+      }
     }
   }
   </script>
@@ -56,7 +47,7 @@
           box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
           padding: 16px;
           margin: 8px;
-          height: 360px;
+          height: 500px;
   
           @media only screen and (max-width: 769px) {
             flex: 0 0 40%;
@@ -89,8 +80,21 @@
             font-size: 20px;
             font-weight: bold;
           }
+
+          p.description {
+          font-size: 12px;
+          color: #555; /* Cor de texto mais suave */
+          line-height: 1.4;
+          margin: 8px 0;
+          max-width: 100%; /* Permitir que a descrição ocupe toda a largura disponível */
+          text-align: justify;
+          overflow: hidden; /* Esconde o conteúdo que ultrapassar o limite */
+          text-overflow: ellipsis; /* Adiciona reticências (...) no final do texto, caso ultrapasse o limite */
+          max-height: 60px; /* Limita a altura para manter o layout compacto */
+      }
   
           button {
+            flex-direction: column;
             color: #fff;
             background-color: #007bff;
             border: 1px solid #007bff;
@@ -99,6 +103,7 @@
             text-align: center;
             padding: 8px 16px;
             cursor: pointer;
+            margin-top: 60px; /* Isso empurra o botão para o final */
   
             &:hover {
               opacity: 0.8;

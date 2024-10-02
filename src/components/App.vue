@@ -1,19 +1,21 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> -
-    <router-link to="/basket">Shopping Bag (0)</router-link> 
+    <router-link to="/">Home</router-link>    
+    <router-link to="/Products">Produtos</router-link> 
+    <router-link to="/basket"> <img src="/src/img/carrinho-de-compras (1).png" alt="Carrinho de compra"> </router-link> 
   </div>
   <router-view/>
 </template>
 
+
 <script>
-
   export default {
-
-  }
-  
+    created(){
+      this.$store.dispatch('loadProducts');
+    }
+ 
+  }  
 </script>
-
 
 <style lang="scss">
 #app {
@@ -36,15 +38,23 @@
   text-align: center;
   background-color: rgb(37, 37, 37);
   color: white;
+  
 
 
   a {
     color: white;
     text-decoration: none;
+    margin: 0 200px;
 
     &.router-link-exact-active {
       color: #007bff;
     }
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    padding: 0 10px;
   }
 }
 </style>
