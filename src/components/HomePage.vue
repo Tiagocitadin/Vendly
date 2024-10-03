@@ -8,9 +8,9 @@
           <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}">
           </div>
           <h4>{{ product.title }}</h4>
-          <p class="price">{{ product.price.toFixed(2) }}</p>
+          <p class="price"> {{'R$ ' +  product.price.toFixed(2) }}</p>
           <p class="description">{{ product.description }}</p>
-          <button>Add to bag</button>
+          <button>Adicione Carrinho</button>
         </div>
       
       </div>
