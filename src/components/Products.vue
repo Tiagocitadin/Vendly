@@ -10,11 +10,12 @@
         <h4>{{ product.title }}</h4>
         <p class="price"> {{'R$ ' +  product.price.toFixed(2) }}</p>
         <p class="description">{{ product.description }}</p>
-        <button>Adicionar Carrinho</button>
-      </div>
-    
+        <button @click="addCarrinho(product)">Adicionar Carrinho</button>
+      </div>    
     </div>
+   
   </div>
+  
 </template>
 
 <script>
@@ -26,6 +27,15 @@ export default {
   computed: {
     products() {
       return this.$store.state.products;
+    },
+    productsAddCarrinho(){
+      return this.$store.state.productsAddCarrinho;
+    }
+  },
+  methods: {
+    addCarrinho(product){
+      product.quantity = 1;
+  this.$store.dispatch('addCarrinho', product);
     }
   }
 }
