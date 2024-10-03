@@ -4,7 +4,7 @@
         <p>&copy; 2024 Vendly. Todos os direitos reservados.</p>
         <div class="social-icons">
           <a href="https://facebook.com" target="_blank">Facebook</a> |
-          <a href="https://twitter.com" target="_blank">Twitter</a> |
+          <a href="https://whatsapp.com/" target="_blank">whatsapp</a> |
           <a href="https://instagram.com" target="_blank">Instagram</a>
         </div>
       </div>
@@ -19,10 +19,11 @@
   </script>
   
   <style scoped lang="scss">
+
   #footer {
     background-color: #252525;
     color: white;
-    padding: 20px 0;
+    padding: 15px ;
     text-align: center;
     bottom: 0;
     width: 100%;

@@ -15,6 +15,7 @@
   </script>
   
   <style lang="scss">
+  
   #nav {
     padding: 10px 0;
     position: fixed;
@@ -25,6 +26,7 @@
     text-align: center;
     background-color: rgb(37, 37, 37);
     color: white;
+    
     
     a {
       color: white;
