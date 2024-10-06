@@ -2,27 +2,34 @@
   <div class="basket">
     <div class="items">
 
-      <div v-for="(product, index) in productsInBag" :key="index" class="item">
-        <div class="remove">Remove item</div>
-        <div class="photo">
-          <img :src="product.image"  alt="produto">
-        </div>
+      <template v-if="productsInBag.length"> 
 
-        <div class="description">{{ product.title }}</div>
-
-        <div class="price">          
-          <span class="quantity-area">
-            <button disabled>-</button>
-
-            <span class="quantity">{{ product.quantity }}</span>
-            <button>+</button>
-          </span>
-
-          <span class="amount"> R$ {{ (product.price * product.quantity).toFixed }}</span>
-        </div>
-      </div>
-      <div class="grand-total"> Grand Total: US$ 22.30</div>
-
+        <div v-for="(product, index) in productsInBag" :key="index" class="item">
+                <div class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remove item</div>
+                <div class="photo">
+                  <img :src="product.image"  alt="produto">
+                </div>
+        
+                <div class="description">{{ product.title }}</div>
+        
+                <div class="price">          
+                  <span class="quantity-area">
+                    <button :disabled="product.quantity <=1" @click="product.quantity --">-</button>
+        
+                    <span class="quantity">{{ product.quantity }}</span>
+                    <button @click="product.quantity ++">+</button>
+                  </span>
+        
+                  <span class="amount"> R$ {{ (product.price * product.quantity).toFixed(2) }}</span>
+                </div>
+              </div>
+              <div  class="grand-total"> Total Pedido: R$ {{ calcularTotal() }}</div>     
+           
+      </template>  
+      <template v-else>
+        <h4>Não ha itens no Carrinho</h4>
+      </template>
+      
     </div>
   </div>
 </template>
@@ -32,6 +39,14 @@ export default {
   name: 'Basket',
   
   methods: {
+    calcularTotal() {
+      var total = 0;
+      this.productsInBag.forEach(item => {
+        total += item.price * item.quantity;
+        
+      });
+      return total.toFixed(2);
+    }
     
   },
 
