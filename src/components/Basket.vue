@@ -23,9 +23,9 @@
                   <span class="amount"> R$ {{ (product.price * product.quantity).toFixed(2) }}</span>
                 </div>
               </div>
-              <div  class="grand-total"> Total Pedido: R$ {{ calcularTotal() }}</div>     
-           
+              <div  class="grand-total"> Total Pedido: R$ {{ calcularTotal() }}</div>                
       </template>  
+      
       <template v-else>
         <h4>Não ha itens no Carrinho</h4>
       </template>
