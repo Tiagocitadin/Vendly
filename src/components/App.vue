@@ -6,17 +6,17 @@
 
     <Footer></Footer>
   </div>
+
 </template>
 
 <script>
-import NavBar from './NavBar.vue'; 
-import Footer from './footer.vue';
-
+import NavBar from '../components/Navbar.vue';
+import Footer from '../components/Footer.vue';
 
 export default {
   components: {
     NavBar,
-    Footer
+    Footer,   
   },
  
   created() {

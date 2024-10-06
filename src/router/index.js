@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../components/HomePage.vue'
-import Basket from '../components/ShoppingBasket.vue'
-import Products from '../components/Products.vue'
+import Home from '../components/Home.vue'
+import Basket from '../components/Basket.vue'
+import Product from '../components/Product.vue'
 
 const routes = [
   {
@@ -15,9 +15,9 @@ const routes = [
     component: Basket
   },
   {
-    path: '/products',
-    name: 'Products',
-    component: Products
+    path: '/product',
+    name: 'Product',
+    component: Product
     },
 ]
 

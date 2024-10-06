@@ -1,17 +1,22 @@
 <template>
     <div id="nav">
       <router-link to="/">Home</router-link>    
-      <router-link to="/products">Produtos</router-link> 
+      <router-link to="/product">Produtos</router-link> 
       <router-link to="/basket">
-        <img src="/src/img/carrinho-de-compras (1).png" alt="Carrinho de compra" />
+        <img src="/src/img/carrinho-de-compras (1).png" alt="Carrinho de compra" />({{ this.productsInBag.length }})
       </router-link> 
     </div>
   </template>
   
   <script>
   export default {
-    name: 'NavBar',
-  };
+      computed: {
+        productsInBag() {
+      return this.$store.state.productsInBag;
+    }
+      }
+  
+  }
   </script>
   
   <style lang="scss">

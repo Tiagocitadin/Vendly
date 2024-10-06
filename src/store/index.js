@@ -3,32 +3,49 @@ import axios from 'axios';
 
 export default createStore({
   state: {
-  products: [],
-  produtosCarrinho: []
+    products: [],
+    productsInBag: []
   },
 
   mutations: {
-    loadProducts(state, products) {
+    // Carrega os produtos no estado
+    loadProducts(state, products) {     
       state.products = products;
     },
-    addCarrinho(state, product) {
-      state.productsAddCarrinho.push(product);
+
+    addToBag(state, product) {
+      state.productsInBag.push(product);
     },
-    
+
+    removeFromBag(state, productId) {
+      var updatedBag = state.productsInBag.filter(item => productId != item.id);
+      state.productsInBag = updatedBag;
+    }
   },
 
   actions: {
-    loadProducts( {commit} ) {
+    // Carrega os produtos usando uma API
+    loadProducts({ commit }) {
       axios
-      .get('https://fakestoreapi.com/products')
-      .then(response => {
-      commit('loadProducts', response.data);
-        })
+        .get('https://fakestoreapi.com/products')
+        .then(response => {
+          commit('loadProducts', response.data);
+        });
     },
-    addCarrinho({ commit}, product) {
-      commit('addCarrinho', product);
+
+    addToBag({ commit }, product) {
+      commit('addToBag', product);
+    },
+    
+    removeFromBag({ commit }, productId) {
+      if ((confirm('Deseja Remover?'))) {
+        commit('removeFromBag', productId);
+      }
+      
     }
   },
+
   modules: {
+    // Caso você queira adicionar módulos Vuex, eles vão aqui
   }
-})
+});

@@ -2,52 +2,55 @@
   <div class="produtos">
     <div class="products">
 
-      <div  
-      v-for="(product, index) in this.products" :key="index"
-       class="product" >
+      <div v-for="(product, index) in this.products" :key="index" class="product" :class="{inBag : isInBag(product)}">
         <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}">
         </div>
         <h4>{{ product.title }}</h4>
-        <p class="price"> {{'R$ ' +  product.price.toFixed(2) }}</p>
-        <p class="description">{{ product.description }}</p>
-        <button @click="addCarrinho(product)">Adicionar Carrinho</button>
-      </div>    
-    </div>
-   
+        <p class="price"> R$ {{ product.price.toFixed(2) }}</p>        
+
+        <button v-if="!isInBag(product)" @click="addToBag(product)">Adicionar Carrinho</button>  
+        <button v-else class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remover do Carrinho</button>     
+         
+      </div>       
+    </div> 
   </div>
-  
 </template>
 
 <script>
 
 
 export default {
-  name: 'Products',
+  name: 'Product',
+  data() {
+    return {
+    }
+  },
 
-  computed: {
+  computed: {    
     products() {
       return this.$store.state.products;
     },
-    productsAddCarrinho(){
-      return this.$store.state.productsAddCarrinho;
+
+    productsInBag(){
+      return this.$store.state.productsInBag;
     }
   },
+
   methods: {
-    addCarrinho(product){
+    addToBag(product) {
       product.quantity = 1;
-  this.$store.dispatch('addCarrinho', product);
+      this.$store.dispatch('addToBag', product);
+    },
+    
+    isInBag(product) {
+      return this.productsInBag.find(item => item.id == product.id)
     }
   }
 }
 </script>
 
 <style lang="scss">
-
-
-
-
 .produtos {
-
   .products {
     display: flex;
     flex-wrap: wrap;
@@ -62,7 +65,7 @@ export default {
       height: 500px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between; /* Alinha os elementos com espaçamento flexível */
+      justify-content: space-between;
   
       @media only screen and (max-width: 769px) {
         flex: 0 0 40%;
@@ -108,8 +111,7 @@ export default {
         text-align: justify;
         overflow: hidden; 
         text-overflow: ellipsis; 
-        max-height: 60px; 
-        
+        max-height: 60px;
       }
 
       button {
@@ -121,7 +123,7 @@ export default {
         text-align: center;
         padding: 8px 16px;
         cursor: pointer;
-        margin-top: auto; /* Esse ajuste empurra o botão para a parte inferior */
+        margin-top: auto;
 
         &:hover {
           opacity: 0.8;
@@ -138,6 +140,3 @@ export default {
   }
 }
 </style>
-
-
-
