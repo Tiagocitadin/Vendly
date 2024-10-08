@@ -22,15 +22,13 @@
   <style lang="scss">
   
   #nav {
-    padding: 10px 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    background-color: rgb(37, 37, 37);
-    color: white;
+  position: fixed; /* Garante que a navbar fique no topo da página */
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Coloca a navbar acima de todos os outros elementos */
+  background-color: #333;
+  color: white;
+  padding: 10px;
     
     
     a {

@@ -32,12 +32,13 @@ html, body {
 }
 
 #footer {
-  background-color: #252525;
-  color: white;
-  padding: 15px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
   text-align: center;
   width: 100%;
-  margin-top: auto; /* Empurra o footer para o fim da página */
+  bottom: 0;
+  left: 0;
 }
 
 .footer-content {
