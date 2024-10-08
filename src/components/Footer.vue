@@ -1,58 +1,67 @@
 <template>
-    <footer id="footer">
-      <div class="footer-content">
-        <p>&copy; 2024 Vendly. Todos os direitos reservados.</p>
-        <div class="social-icons">
-          <a href="https://facebook.com" target="_blank">Facebook</a> |
-          <a href="https://whatsapp.com/" target="_blank">whatsapp</a> |
-          <a href="https://instagram.com" target="_blank">Instagram</a>
-        </div>
+  <footer id="footer">
+    <div class="footer-content">
+      <p>&copy; 2024 Vendly. Todos os direitos reservados.</p>
+      <div class="social-icons">
+        <a href="https://facebook.com" target="_blank">Facebook</a> |
+        <a href="https://whatsapp.com/" target="_blank">whatsapp</a> |
+        <a href="https://instagram.com" target="_blank">Instagram</a>
       </div>
-    </footer>
-  </template>
-  
-  <script>
-  export default {
-    name: 'Footer',
-  };
+    </div>
+  </footer>
+</template>
 
-  </script>
-  
-  <style scoped lang="scss">
+<script>
+export default {
+  name: 'Footer',
+};
+</script>
 
-  #footer {
-    background-color: #252525;
-    color: white;
-    padding: 15px ;
-    text-align: center;
-    bottom: 0;
-    width: 100%;
-    
-  }
-  
-  .footer-content {
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-  
-  p {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .social-icons {
-    margin-top: 10px;
-  }
-  
-  a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-    transition: color 0.3s ease;
-  }
-  
-  a:hover {
-    color: #007bff;
-  }
-  </style>
-  
+<style scoped lang="scss">
+
+html, body {
+  height: 100%; /* Isso garante que o corpo e o HTML ocupem a altura total da página */
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Define a altura mínima como 100% da altura da viewport */
+}
+
+#footer {
+  background-color: #252525;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+  margin-top: auto; /* Empurra o footer para o fim da página */
+}
+
+.footer-content {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.social-icons {
+  margin-top: 10px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #007bff;
+}
+</style>

@@ -6,12 +6,13 @@
 
     <Footer></Footer>
   </div>
-
 </template>
 
 <script>
 import NavBar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue';
+
+
 
 export default {
   components: {
@@ -21,6 +22,11 @@ export default {
  
   created() {
     this.$store.dispatch('loadProducts');
+  },
+
+created() {
+    this.$store.dispatch('loadProducts');
+    document.title = "Vendly"; 
   }
 };
 </script>

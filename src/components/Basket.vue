@@ -21,9 +21,16 @@
                   </span>
         
                   <span class="amount"> R$ {{ (product.price * product.quantity).toFixed(2) }}</span>
-                </div>
+                  
+                </div>               
               </div>
-              <div  class="grand-total"> Total Pedido: R$ {{ calcularTotal() }}</div>                
+              <div  class="grand-total"> Total Pedido: R$ {{ calcularTotal() }}</div> 
+
+              <div class="finalizar">
+               <button @click="finalizarCompra" class="btn-finalizar">Finalizar Compra</button>
+                </div>
+
+                          
       </template>  
       
       <template v-else>
@@ -47,8 +54,10 @@ export default {
       });
       return total.toFixed(2);
     }
-    
   },
+   
+    
+
 
   computed: {    
      productsInBag(){
@@ -61,13 +70,15 @@ export default {
 <style lang="scss">
 .basket {
   padding: 60px 0;
+
   .items {
     max-width: 800px;
     margin: auto;
+
     .item {
       display: flex;
       justify-content: space-between;
-      align-items: center; /* Alinha os itens verticalmente */
+      align-items: center;
       padding: 40px 0;
       border-bottom: 1px solid lightgrey;
       position: relative;
@@ -99,6 +110,7 @@ export default {
           font-size: 16px;
           line-height: 16px;
           border-radius: 50%;
+
           &:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -128,6 +140,7 @@ export default {
       .price {
         display: flex;
         align-items: center;
+
         .amount {
           font-size: 16px;
           margin-left: 8px;
@@ -135,11 +148,32 @@ export default {
         }
       }
     }
+
     .grand-total {
       font-size: 24px;
       font-weight: bold;
-      text-align: right;
+      text-align: center;
       margin-top: 8px;
+    }
+
+    .finalizar {
+      text-align: center;
+      margin-top: 20px;
+
+      .btn-finalizar {
+        padding: 12px 24px;
+        background-color: #28a745;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #023b0f;
+        }
+      }
     }
   }
 }

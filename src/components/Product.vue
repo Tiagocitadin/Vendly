@@ -62,7 +62,7 @@ export default {
       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
       padding: 16px;
       margin: 8px;
-      height: 500px;
+      height: 300px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
