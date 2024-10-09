@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- Cabeçalho -->
-    <div class="products">
+    <div class="homePage">
       <h4>Vendly Sua Loja Virtual</h4>
     </div>  
 
@@ -22,7 +22,7 @@
 
     <!-- Seção de Produtos -->
     <div class="product-section">
-      <h2>Confira nossos Produtos</h2>
+      <h2>Produtos Mais Vendidos</h2>
       <div class="product-grid">
         <!-- Produto 1 -->
         <div class="product-item">
@@ -43,7 +43,8 @@
             Novo, lacrado na caixa Garantia: Garantia de 1 ano pelo fabricante Compatibilidade: Perfeito para jogos de última
             geração, como Call of Duty e Fortnite, além de softwares de edição e renderização em alta resolução, como Adobe
             Premiere e AutoCAD. Outras informações: Modelo 90-GA2RZZ-00UANF, acompanha caixa original, cabos e manual.</p>
-          <span>R$ 3.200,00</span>          
+          <span>R$ 3.200,00</span>    
+          <span class="parcela"> 10x R$ 320,00</span>      
         </div>
 
         <div class="product-item">

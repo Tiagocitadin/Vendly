@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../components/Home.vue'
 import Basket from '../components/Basket.vue'
 import Product from '../components/Product.vue'
+import Cadastro from '../components/Cadastro.vue'
 
 const routes = [
   {
@@ -19,6 +20,12 @@ const routes = [
     name: 'Product',
     component: Product
     },
+    {
+      path: '/cadastro',
+      name: 'Cadastro',
+      component: Cadastro
+      },
+
 ]
 
 const router = createRouter({
