@@ -46,6 +46,12 @@ export default createStore({
         commit('removeFromBag', productId);
       }
       
+    },
+
+     // Ação para redirecionar para a página de cadastro
+     redirectToCadastro({ }, router) {
+      // Realiza o redirecionamento para a rota de cadastro
+      router.push('/cadastro');
     }
   },
 

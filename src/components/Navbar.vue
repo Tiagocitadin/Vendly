@@ -1,13 +1,12 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link>    
-    <router-link to="/product">Produtos</router-link>      
-    <router-link to="/cadastro">Cadastro</router-link>
-    <router-link to="/login">Login</router-link>
+    <router-link to="/product">Produtos</router-link>        
     <router-link to="/basket">
       <img src="/src/img/carrinho-de-compras (1).png" alt="Carrinho de compra" />
       ({{ productsInBag.length }})
     </router-link> 
+    <router-link to="/login">Login</router-link>
   </div>
 </template>
 

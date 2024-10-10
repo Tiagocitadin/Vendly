@@ -3,6 +3,7 @@ import Home from '../components/Home.vue'
 import Basket from '../components/Basket.vue'
 import Product from '../components/Product.vue'
 import Cadastro from '../components/Cadastro.vue'
+import Login from '../components/login.vue'
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
       name: 'Cadastro',
       component: Cadastro
       },
+      {
+        path: '/login',
+        name: 'Login',
+        component: Login
+        },
 
 ]
 
