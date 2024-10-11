@@ -8,20 +8,26 @@
       <!-- Formulário de Login -->
       <div class="login-container">
         <h2>Entre na sua conta</h2>
+
         <form @submit.prevent="handleLogin">
+
           <div class="input-group">
             <label for="email">Email:</label>
             <input type="email" id="email" v-model="email" required>
           </div>
+
           <div class="input-group">
             <label for="password">Senha:</label>
             <input type="password" id="password" v-model="password" required>
           </div>
+
           <button type="submit">Entrar</button>
         </form>
+
         <p class="register-link">
           Não tem uma conta? <a href="/register">Cadastre-se aqui</a>
         </p>
+
       </div>
     </div>
   </template>
@@ -64,7 +70,7 @@
       }
 
       // Se passar na validação, redireciona para a página de cadastro
-      this.redirectToCadastro(this.$router);
+        this.$router.push('/cadastro');
     }
   }
 };

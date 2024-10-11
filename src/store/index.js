@@ -8,13 +8,8 @@ export default createStore({
   },
 
   mutations: {
-    // Carrega os produtos no estado
     loadProducts(state, products) {     
       state.products = products;
-    },
-
-    loadBag(state, products) {     
-      state.productsInBag = products;
     },
 
     addToBag(state, product) {
@@ -22,18 +17,21 @@ export default createStore({
     },
 
     removeFromBag(state, productId) {
-      var updatedBag = state.productsInBag.filter(item => productId != item.id);
-      state.productsInBag = updatedBag;     
+      const updatedBag = state.productsInBag.filter(item => productId !== item.id);
+      state.productsInBag = updatedBag;
     },
   },
 
   actions: {
-    // Carrega os produtos usando uma API
+    // Carrega os produtos usando a API local na porta 5500
     loadProducts({ commit }) {
       axios
-        .get('https://fakestoreapi.com/products')
+        .get('http://localhost:5500/produtos')  // Certifique-se de que este é o caminho correto da API
         .then(response => {
           commit('loadProducts', response.data);
+        })
+        .catch(error => {
+          console.error('Erro ao carregar produtos: ', error);
         });
     },   
 
@@ -42,20 +40,13 @@ export default createStore({
     },
     
     removeFromBag({ commit }, productId) {
-      if ((confirm('Deseja Remover?'))) {
+      if (confirm('Deseja remover este item?')) {
         commit('removeFromBag', productId);
       }
-      
     },
-
-     // Ação para redirecionar para a página de cadastro
-     redirectToCadastro({ }, router) {
-      // Realiza o redirecionamento para a rota de cadastro
-      router.push('/cadastro');
-    }
   },
 
   modules: {
-    // Caso você queira adicionar módulos Vuex, eles vão aqui
+    // Aqui você pode adicionar módulos Vuex adicionais, se necessário
   }
 });

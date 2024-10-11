@@ -5,8 +5,20 @@
       <div v-for="(product, index) in this.products" :key="index" class="product" :class="{inBag : isInBag(product)}">
         <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}">
         </div>
-        <h4>{{ product.title }}</h4>
-        <p class="price"> R$ {{ product.price.toFixed(2) }}</p>        
+
+        <div>
+          <h4>{{ product.title }}</h4>
+        </div>
+
+        <div >
+          <p class="price"> R$ {{ product.price.toFixed(2) }}</p> 
+        </div>
+     
+        <div class="estoque">
+          <p> Disponivel {{ product.estoque }} UN.</p> 
+        </div>
+    
+              
 
         <button v-if="!isInBag(product)" @click="addToBag(product)">Adicionar Carrinho</button>  
         <button v-else class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remover do Carrinho</button>     
@@ -113,6 +125,12 @@ export default {
         text-overflow: ellipsis; 
         max-height: 60px;
       }
+
+      .estoque {
+        font-size:15px;
+
+      }
+     
 
       button {
         color: #fff;
