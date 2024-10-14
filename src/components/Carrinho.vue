@@ -1,5 +1,5 @@
 <template>
-  <div class="basket">
+  <div class="carrinho">
     <div class="items">
 
       <template v-if="productsInBag.length"> 
@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  name: 'Basket',
+  name: 'Carrinho',
   
   methods: {
     calcularTotal() {
@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style lang="scss">
-.basket {
+.carrinho {
   padding: 60px 0;
 
   .items {

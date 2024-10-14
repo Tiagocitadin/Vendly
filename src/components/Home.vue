@@ -2,13 +2,15 @@
   <div class="home">
     <!-- Cabeçalho -->
     <div class="homePage">
-      <h4>Vendly Sua Loja Virtual</h4>
-    </div>  
-
+   <h1 class="animatedTitle">Vendly - A Plataforma Completa para Vender Produtos de PC</h1>
+   <h4 class="animatedSubtitle">Seu marketplace especializado em tecnologia, pronto para impulsionar suas vendas online</h4>
+</div>
  
     <!-- Seção de Produtos -->
     <div class="product-section">
-      <h2>Produtos Mais Vendidos</h2>
+      <div class="titulo">
+        <h2>Produtos Mais Vendidos</h2>
+      </div>      
       <div class="product-grid">
         <!-- Iterar sobre a lista de produtos com v-for -->
         <div class="product-item" v-for="(product, index) in products" :key="index">
@@ -61,16 +63,45 @@ body {
   flex-grow: 1; /* Garante que o conteúdo cresça até empurrar o rodapé para baixo */
 }
 
+.homePage {
+  background-color:rgb(190, 175, 32);
+  padding: 30px;
+ 
+}
+.animatedTitle {
+   opacity: 0;
+   transform: translateY(-20px);
+   animation: fadeInUp 1s ease-in-out forwards;
+}
+
+.animatedSubtitle {
+   opacity: 0;
+   transform: translateY(20px);
+   animation: fadeInUp 2s ease-in-out forwards;
+   animation-delay: 0.5s;
+}
+
+@keyframes fadeInUp {
+   0% {
+      opacity: 0;
+      transform: translateY(20px);
+   }
+   100% {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}
+
 /* Cabeçalho */
 .products {
   text-align: center;
   padding: 5px;
 }
 
-h4 {
-  color: #333;
-  font-size: 24px;
-  margin-top: 20px;
+h4 h1{
+  color: black;
+  font-size: 36px;
+  margin: auto;
 }
 
 
@@ -109,6 +140,16 @@ h4 {
 .product-section {
   padding: 20px;
   margin-bottom: 100px; /* Adiciona espaço suficiente para que o rodapé não seja sobreposto */
+ 
+}
+
+.titulo {
+  background-color: rgb(180, 51, 51);
+  width: 100vw;
+  padding: 10px;
+  color: black;
+  font-size: 20px;
+ 
 }
 
 .product-grid {
