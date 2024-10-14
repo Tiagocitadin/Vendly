@@ -2,24 +2,23 @@
   <div class="produtos">
     <div class="products">
 
-      <div v-for="(product, index) in this.products" :key="index" class="product" :class="{inBag : isInBag(product)}">
+      <div v-for="(product, index) in products" :key="index" class="product" :class="{inBag : isInBag(product)}">
         <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}">
         </div>
 
         <div>
           <h4>{{ product.title }}</h4>
+          <p>{{ product.description }}</p>
         </div>
 
-        <div >
+        <div>
           <p class="price"> R$ {{ product.price.toFixed(2) }}</p> 
         </div>
      
-        <div class="estoque">
-          <p> Disponivel {{ product.estoque }} UN.</p> 
+        <div class="parcela">
+          <p> 10x R$ {{ calculoParcela(product.price).toFixed(2) }}</p>
         </div>
     
-              
-
         <button v-if="!isInBag(product)" @click="addToBag(product)">Adicionar Carrinho</button>  
         <button v-else class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remover do Carrinho</button>     
          
@@ -29,8 +28,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: 'Product',
   data() {
@@ -55,7 +52,12 @@ export default {
     },
     
     isInBag(product) {
-      return this.productsInBag.find(item => item.id == product.id)
+      return this.productsInBag.find(item => item.id == product.id);
+    },
+    
+    calculoParcela(price) {
+      const parcelas = 10;
+      return price / parcelas; 
     }
   }
 }
@@ -74,7 +76,7 @@ export default {
       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
       padding: 16px;
       margin: 8px;
-      height: 300px;
+      height: 700px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -93,16 +95,17 @@ export default {
       
       .product-image {
         margin: 20px auto;
-        width: 160px;
-        height: 140px;
-        background-size: contain;
+        width: 100%; /* Ajusta a imagem para preencher a largura total */
+        height: 100%; /* Define uma altura fixa */
+        background-size: contain; /* Mantém as proporções da imagem */
         background-position: center;
         background-repeat: no-repeat;
+        background-color: #f0f0f0; /* Fundo para imagens menores */
       }
 
       h4 {
         margin: 22px auto;
-        font-size: 12px;
+        font-size: 20px;
         max-width: 60%;
         font-weight: normal;
         text-align: center;
@@ -115,7 +118,7 @@ export default {
       }
 
       p.description {
-        font-size: 12px;
+        font-size: 8px;
         color: #555; 
         line-height: 1.4;
         margin: 8px 0;
@@ -126,11 +129,9 @@ export default {
         max-height: 60px;
       }
 
-      .estoque {
+      .parcela {
         font-size:15px;
-
       }
-     
 
       button {
         color: #fff;

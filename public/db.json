@@ -1,0 +1,78 @@
+{
+    "produtos": [
+      {
+        "id": 1,
+        "title": "Placa de Vídeo GeForce RTX 4090 ",
+        "description": "A GeForce RTX 4090 entrega gráficos de última geração com ray tracing e desempenho incomparável, ideal para jogos em 4K e criação de conteúdo profissional.",
+        "price": 5500.00,
+        "image": "/assets/placadevideo.jpeg",
+        "estoque": 30
+      },
+      {
+        "id": 2,
+        "title": "Placa Mãe H610M",
+        "description": "A Placa Mãe H610M garante desempenho e confiabilidade, suportando processadores Intel de 12ª geração e memória DDR4, ideal para PCs compactos e eficientes.",
+        "price": 250.00,
+        "image": "/assets/PlacamaeH610M.jpeg",
+        "estoque": 30
+      },
+      {
+        "id": 3,
+        "title": "Placa Mãe B550M",
+        "description": " A B550M é uma placa mãe compacta e potente, com suporte a processadores AMD Ryzen, PCIe 4.0 e memória DDR4, perfeita para desempenho extremo.",
+        "price": 750.00,
+        "image": "/assets/PlacamaeB550M.jpeg",       
+        "estoque": 20
+      },
+      {
+        "id": 4,
+        "title": "Placa de Vídeo AMD Radeon RX",
+        "description": "A AMD Radeon RX entrega gráficos impressionantes com Ray Tracing e alta performance, ideal para jogos e criação de conteúdo.",
+        "price": 2800.00,
+        "image": "/assets/Placadevideorx.jpeg",        
+        "estoque": 5
+      },
+      {
+        "id": 5,
+        "title": "Processador AMD Ryzen",
+        "description": "O AMD Ryzen combina potência e eficiência para jogos, multitarefas e criação de conteúdo com desempenho multinúcleo e suporte a overclock.",
+        "price": 5500.00, 
+        "image": "/assets/ProcessadorAMDRyzen.jpeg",             
+        "estoque": 30
+      },
+      {
+        "id": 6,
+        "title": "Processador AMD Ryzen 1ª Geração",
+        "description": "O AMD Ryzen 1ª Geração entrega desempenho multitarefa eficiente, ideal para uso diário e jogos casuais, com arquitetura moderna e custo-benefício.",
+        "price": 250.00, 
+        "image": "/assets/ProcessadorAMDRyzen1.jpeg",              
+        "estoque": 30
+      },
+      {
+        "id": 7,
+        "title": "Processador AMD Ryzen 2ª Geração",
+        "description": " O AMD Ryzen 2ª Geração oferece potência aprimorada e multitarefas eficientes, ideal para jogos e criação de conteúdo, com suporte a overclock e maior desempenho.",
+        "price": 750.00,
+        "image": "/assets/ProcessadorAMDRyzen2.jpeg",        
+        "estoque": 20
+      },
+      {
+        "id": 8,
+        "title": "Processador Intel Core",
+        "description": "O Processador Intel Core oferece desempenho avançado para jogos e produtividade, com maior velocidade e eficiência energética para uma experiência fluida",
+        "price": 2800.00,
+        "image": "/assets/ProcessadorIntel.jpeg",        
+        "estoque": 5
+      },
+      {
+        "id": 9,
+        "title": "Ventoinha de Alto Desempenho",
+        "description": " A Ventoinha de Alto Desempenho oferece resfriamento eficiente e silencioso, ideal para manter seu PC estável em uso intenso.",
+        "price": 5500.00,
+        "image": "/assets/Ventoinha.jpeg",
+        "estoque": 30
+      }
+      
+    ]
+  }
+  
