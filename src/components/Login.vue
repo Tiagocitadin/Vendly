@@ -70,7 +70,7 @@
       }
 
       // Se passar na validação, redireciona para a página de cadastro
-        this.$router.push('/cadastro');
+        this.$router.push('/cadastro_cliente');
     }
   }
 };

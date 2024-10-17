@@ -46,7 +46,5 @@ export default createStore({
     },
   },
 
-  modules: {
-    // Aqui você pode adicionar módulos Vuex adicionais, se necessário
-  }
+ 
 });

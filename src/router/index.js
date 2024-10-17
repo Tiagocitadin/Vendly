@@ -4,6 +4,7 @@ import Carrinho from '../components/Carrinho.vue'
 import Product from '../components/Product.vue'
 import Cadastro from '../components/Cadastro.vue'
 import Login from '../components/Login.vue'
+import Cadastro_Cliente from '../components/Cadastro_Cliente.vue'
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
         name: 'Login',
         component: Login
         },
+        {
+          path: '/cadastro_cliente',
+          name: 'Cadastro_Cliente',
+          component: Cadastro_Cliente
+          },
 
 ]
 

@@ -32,6 +32,16 @@
           <small v-if="errors.preco" class="error">{{ errors.preco }}</small>
         </div>
 
+        <div class="form-group">
+          <label for="image">Imagem do Produto <span>*</span></label>
+          <input type="file" id="image" @change="onImageSelected" accept="image/*" required />
+          <small v-if="errors.image" class="error">{{ errors.image }}</small>
+          <div v-if="product.image">
+            <img :src="product.image" alt="Pré-visualização da imagem" style="max-width: 200px; margin-top: 10px;" />
+  </div>
+</div>
+
+
         <button type="submit" class="submit-button">Cadastrar</button>
       </form>
     </div>
