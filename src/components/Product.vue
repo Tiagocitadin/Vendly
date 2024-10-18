@@ -1,7 +1,6 @@
 <template>
   <div class="produtos">
     <div class="products">
-
       <div v-for="(product, index) in products" :key="index" class="product" :class="{inBag : isInBag(product)}">
         <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}">
         </div>
@@ -19,9 +18,8 @@
           <p> 10x R$ {{ calculoParcela(product.price).toFixed(2) }}</p>
         </div>
     
-        <button v-if="!isInBag(product)" @click="addToBag(product)">Adicionar Carrinho</button>  
-        <button v-else class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remover do Carrinho</button>     
-         
+        <button v-if="!isInBag(product)" @click="addToBag(product)">Adicionar ao Carrinho</button>  
+        <button v-else class="remove" @click="removeFromBag(product.id)">Remover do Carrinho</button>     
       </div>       
     </div> 
   </div>
@@ -31,34 +29,41 @@
 export default {
   name: 'Product',
   data() {
-    return {
-    }
+    return {};
   },
 
   computed: {    
     products() {
-      return this.$store.state.products;
+      return this.$store.state.products; // Obtém os produtos do state
     },
-
-    productsInBag(){
-      return this.$store.state.productsInBag;
+    productsInBag() {
+      return this.$store.state.productsInBag; // Obtém os produtos no carrinho
     }
   },
 
   methods: {
     addToBag(product) {
       product.quantity = 1;
-      this.$store.dispatch('addToBag', product);
+      this.$store.dispatch('addToBag', product); // Adiciona o produto ao carrinho
+    },
+    
+    removeFromBag(productId) {
+      this.$store.dispatch('removeFromBag', productId); // Remove o produto do carrinho
     },
     
     isInBag(product) {
-      return this.productsInBag.find(item => item.id == product.id);
+      return this.productsInBag.some(item => item.id === product.id); // Verifica se o produto já está no carrinho
     },
     
     calculoParcela(price) {
       const parcelas = 10;
-      return price / parcelas; 
+      return price / parcelas; // Calcula o valor da parcela
     }
+  },
+
+  // Chama a action para buscar os produtos do db.json
+  created() {
+    this.$store.dispatch('fetchProducts'); // Garante que os produtos sejam buscados ao criar o componente
   }
 }
 </script>
@@ -95,12 +100,12 @@ export default {
       
       .product-image {
         margin: 20px auto;
-        width: 100%; /* Ajusta a imagem para preencher a largura total */
-        height: 100%; /* Define uma altura fixa */
-        background-size: contain; /* Mantém as proporções da imagem */
+        width: 100%;
+        height: 300px; /* Define uma altura fixa */
+        background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        background-color: #f0f0f0; /* Fundo para imagens menores */
+        background-color: #f0f0f0;
       }
 
       h4 {
@@ -118,8 +123,8 @@ export default {
       }
 
       p.description {
-        font-size: 8px;
-        color: #555; 
+        font-size: 12px;
+        color: #555;
         line-height: 1.4;
         margin: 8px 0;
         max-width: 100%; 
@@ -130,7 +135,8 @@ export default {
       }
 
       .parcela {
-        font-size:15px;
+        font-size: 15px;
+        text-align: center;
       }
 
       button {
