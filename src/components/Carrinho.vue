@@ -54,9 +54,7 @@ export default {
       });
       return total.toFixed(2);
     }
-  },
-   
-    
+  },    
 
 
   computed: {    

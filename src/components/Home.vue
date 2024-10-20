@@ -2,18 +2,18 @@
   <div class="home">
     <!-- Cabeçalho -->
     <div class="homePage">
-   <h1 class="animatedTitle">Vendly - A Plataforma Completa para Vender Produtos de PC</h1>
-   <h4 class="animatedSubtitle">Seu marketplace especializado em tecnologia, pronto para impulsionar suas vendas online</h4>
-</div>
- 
+      <h1 class="animatedTitle">Vendly - A Plataforma Completa para Vender Produtos de PC</h1>
+      <h4 class="animatedSubtitle">Seu marketplace especializado em tecnologia, pronto para impulsionar suas vendas online</h4>
+    </div>
+
     <!-- Seção de Produtos -->
     <div class="product-section">
       <div class="titulo">
         <h2>Produtos Mais Vendidos</h2>
-      </div>      
+      </div>
       <div class="product-grid">
-        <!-- Iterar sobre a lista de produtos com v-for -->
-        <div class="product-item" v-for="(product, index) in products" :key="index">
+        <!-- Iterar sobre a lista de produtos mais vendidos com v-for -->
+        <div class="product-item" v-for="(product, index) in maisVendidos" :key="index">
           <img :src="product.image" :alt="product.name" />
           <h3>{{ product.title }}</h3>
           <p>{{ product.description }}</p>
@@ -24,26 +24,14 @@
 </template>
 
 <script>
-
 export default {
-  name: 'Product',
-  data() {
-    return {
+  name: 'Home',
+  computed: {
+    // Filtra os produtos que têm a propriedade maisVendido como true
+    maisVendidos() {
+      return this.$store.state.products.filter(product => product.maisVendido);
     }
-  },
-
-  computed: {    
-    products() {
-      return this.$store.state.products;
-    }
-
-   
-  },
-
-  methods: {
-   
-    
-     }
+  }
 }
 </script>
 <style >
