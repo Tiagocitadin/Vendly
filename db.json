@@ -75,30 +75,36 @@
   ],
   "clientes": [
     {
-      "id": 1,
-      "nome": "Tiago",
-      "email": "ty@gmail.com",
-      "cpf": "05289486950",
-      "telefone": "48999548935",
+      "id": "2",
+      "NMproduto": "teclado",
+      "vlProduto": 25
+    },
+    {
+      "id": 3,
+      "nome": "Tiago goulart citadin",
+      "email": "tyagogc@gmail.com",
+      "cpf": "052.894.869-50",
+      "telefone": "48999898040",
+      "endereco": "Estrada Geral da Guarda",
+      "bairro": "Guarda Margem Direita",
+      "cidade": "Tubarão",
+      "estado": "SC",
+      "cep": "88702704",
+      "numero": ""
+    },
+    {
+      "id": 4,
+      "nome": "teste",
+      "email": "tyagogc@gmail.com",
+      "senha": "",
+      "cpf": "12345678912",
+      "telefone": "48999898040",
       "endereco": "Rua Galdino José de Bessa",
       "bairro": "Oficinas",
       "cidade": "Tubarão",
       "estado": "SC",
       "cep": "88702295",
       "numero": "1601"
-    },
-    {
-      "id": 2,
-      "nome": "ate logo",
-      "email": "",
-      "cpf": "",
-      "telefone": "",
-      "endereco": "",
-      "bairro": "",
-      "cidade": "",
-      "estado": "",
-      "cep": "",
-      "numero": ""
     }
   ]
 }

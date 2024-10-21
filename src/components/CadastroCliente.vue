@@ -150,11 +150,12 @@ export default {
       const clienteEncontrado = this.clientes.find(cliente => cliente.cpf === this.cpfBusca);
       if (clienteEncontrado) {
         this.cliente = { ...clienteEncontrado };
-        this.isEditing = true;
-        this.cpfBusca = '';
+        this.isEditing = true; 
+        
       } else {
         alert('Cliente não encontrado.');
       }
+      
     },
 
     // Método para consultar o CEP e preencher automaticamente os campos de endereço
@@ -215,55 +216,58 @@ export default {
 
     // Editar cliente
     async editarCliente() {
-      if (this.cliente.id) {
-        try {
-          await axios.put(`http://localhost:5500/clientes/${this.cliente.id}`, this.cliente); // A edição ocorre com o ID
-          alert('Cliente alterado com sucesso!');
-          this.clearForm();
-          this.carregarClientes();
-        } catch (error) {
-          console.error('Erro ao alterar cliente: ', error);
-        }
-      }
-    },
+  if (!this.cliente.id) {
+    alert('Nenhum cliente selecionado para edição.');
+    return;
+  }
 
-    // Excluir cliente do db.json usando ID
-    async excluirCliente() {
-  // Verifica se o campo de busca por CPF está preenchido
-  
-  // Confirma se o usuário deseja excluir o cliente
-  if (confirm('Tem certeza que deseja excluir este cliente?')) {
-    try {
-      // Busca o cliente pelo CPF digitado
-      const clienteEncontrado = this.clientes.find(cliente => cliente.cpf === this.cpfBusca.trim());
-
-      // Verifica se o cliente foi encontrado
-      if (!clienteEncontrado) {
-        alert('Cliente não encontrado.');
-        return;
-      }
-
-      const clienteId = clienteEncontrado.id;  // Obtém o ID do cliente encontrado
-
-      // Verifica se o ID do cliente é válido
-      if (!clienteId) {
-        alert('Erro: Cliente não possui um ID válido.');
-        return;
-      }
-
-      // Faz a requisição de exclusão utilizando o ID do cliente
-      await axios.delete(`http://localhost:5500/clientes`, this.cliente);
-      
-      alert('Cliente excluído com sucesso!');
-      this.clearForm();  // Limpa o formulário
-      this.carregarClientes();  // Atualiza a lista de clientes
-    } catch (error) {
-      console.error('Erro ao excluir cliente: ', error);
-      alert('Erro ao excluir cliente. Verifique os detalhes no console.');
-    }
+  try {
+    await axios.put(`http://localhost:5500/clientes/${this.cliente.id}`);
+    alert('Cliente alterado com sucesso!');
+    this.clearForm();
+    this.carregarClientes();
+  } catch (error) {
+    console.error('Erro ao alterar cliente: ', error);
+    alert('Erro ao alterar cliente. Verifique os detalhes no console.');
   }
 },
+   
+  // Verifica se o campo de busca por CPF está preenchido
+  async excluirCliente() {
+  // Verifica se o campo de busca por CPF está preenchido
+  if (this.cpfBusca.trim() === '') {
+    alert('Por favor, preencha o CPF do cliente.');
+    return;
+  }
 
+  // Confirma se o usuário deseja excluir o cliente
+  if (!confirm('Tem certeza que deseja excluir este cliente?')) {
+    return; // Se não confirmar, sai da função
+  }
+
+  try {
+    // Busca o cliente pelo CPF digitado
+    const clienteEncontrado = this.clientes.find(cliente => cliente.cpf === this.cpfBusca.trim());
+
+    // Verifica se o cliente foi encontrado
+    if (!clienteEncontrado) {
+      alert('Cliente não encontrado.');
+      return;
+    }
+
+    const clienteId = clienteEncontrado.id;  // Obtém o ID do cliente encontrado
+
+    // Faz a requisição de exclusão utilizando o ID do cliente na URL
+    await axios.delete(`http://localhost:5500/clientes/${clienteId}`);
+    
+    alert('Cliente excluído com sucesso!');
+    this.clearForm();  // Limpa o formulário
+    this.carregarClientes();  // Atualiza a lista de clientes
+  } catch (error) {
+    console.error('Erro ao excluir cliente: ', error);
+    alert('Erro ao excluir cliente. Verifique os detalhes no console.');
+  }
+},
 
     // Método para limpar o formulário após o cadastro ou edição
     clearForm() {
