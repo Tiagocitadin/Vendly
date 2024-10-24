@@ -142,87 +142,56 @@ export default {
     },
 
     // Buscar cliente pelo CPF
-    buscarClientePorCpf() {
-      if (!this.cpfBusca.trim()) {
-        alert('Preencha o campo de busca.');
-        return;
+buscarClientePorCpf() {
+  if (!this.cpfBusca.trim()) {
+    alert('Preencha o campo de busca.');
+    return;
+  }
+  // Fazendo uma requisição GET ao servidor que hospeda o db.json
+  fetch(`http://localhost:5500/clientes?cpf=${this.cpfBusca}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro na solicitação');
       }
-      const clienteEncontrado = this.clientes.find(cliente => cliente.cpf === this.cpfBusca);
-      if (clienteEncontrado) {
-        this.cliente = { ...clienteEncontrado };
-        this.isEditing = true; 
-        
+      return response.json();
+    })
+    .then(data => {
+      // O "data" será o array de clientes encontrados
+      if (data.length > 0) {
+        this.cliente = { ...data[0] };  // Pega o primeiro cliente encontrado
+        console.log('Cliente encontrado com ID:', this.cliente.id); // Verifica se o ID foi carregado
+        this.isEditing = true;  // Ativa o modo de edição
       } else {
         alert('Cliente não encontrado.');
       }
-      
-    },
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+      alert('Ocorreu um erro ao buscar o cliente.');
+    });
+},
 
-    // Método para consultar o CEP e preencher automaticamente os campos de endereço
-    async consultarCep() {
-      const cep = this.cliente.cep.replace(/\D/g, ''); // Remove caracteres não numéricos
-
-      if (cep.length !== 8) {
-        this.errors.cep = 'CEP inválido.';
-        return;
-      }
-
-      try {
-        const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-
-        if (response.data.erro) {
-          this.errors.cep = 'CEP não encontrado.';
-          return;
-        }
-
-        this.cliente.endereco = response.data.logradouro;
-        this.cliente.bairro = response.data.bairro;
-        this.cliente.cidade = response.data.localidade;
-        this.cliente.estado = response.data.uf;
-        this.errors.cep = ''; // Limpa o erro de CEP se os dados forem preenchidos com sucesso
-      } catch (error) {
-        this.errors.cep = 'Erro ao consultar o CEP.';
-      }
-    },
-
-    // Cadastrar cliente
-    async cadastrarCliente() {
-      this.errors = {}; // Limpa os erros
-
-      // Verifica se os campos obrigatórios estão preenchidos
-      if (!this.cliente.nome) {
-        this.errors.nome = 'O nome é obrigatório';
-        return;
-      }
-
-      try {
-        // Verifica se já existe um cliente cadastrado e qual o maior ID
-        const maiorId = this.clientes.length > 0 ? Math.max(...this.clientes.map(cliente => cliente.id || 0)) : 0;
-
-        // Define um novo ID para o cliente
-        this.cliente.id = maiorId + 1;
-
-        // Faz a requisição para cadastrar o cliente
-        await axios.post('http://localhost:5500/clientes', this.cliente);
-        alert('Cliente cadastrado com sucesso!');
-
-        // Limpa o formulário e recarrega a lista de clientes
-        this.clearForm();
-        this.carregarClientes();
-      } catch (error) {
-        console.error('Erro ao cadastrar cliente: ', error);
-      }
-    },
-
-    // Editar cliente
-    async editarCliente() {
+// Editar cliente
+async editarCliente() {
   if (!this.cliente.id) {
     alert('Nenhum cliente selecionado para edição.');
     return;
   }
-
+  console.log('Cliente a ser editado com ID:', this.cliente.id); // Verifica se o ID está presente
   try {
-    await axios.put(`http://localhost:5500/clientes/${this.cliente.id}`);
+    // Faz a requisição para editar o cliente usando fetch
+    const response = await fetch(`http://localhost:5500/clientes/${this.cliente.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.cliente) // Envia o objeto cliente atualizado no corpo da requisição
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao alterar cliente');
+    }
+
     alert('Cliente alterado com sucesso!');
     this.clearForm();
     this.carregarClientes();
@@ -231,9 +200,113 @@ export default {
     alert('Erro ao alterar cliente. Verifique os detalhes no console.');
   }
 },
-   
-  // Verifica se o campo de busca por CPF está preenchido
-  async excluirCliente() {
+
+
+    // Método para consultar o CEP e preencher automaticamente os campos de endereço
+    async consultarCep() {
+  const cep = this.cliente.cep.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+  if (cep.length !== 8) {
+    this.errors.cep = 'CEP inválido.';
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+    if (!response.ok) {
+      throw new Error('Erro na consulta do CEP.');
+    }
+
+    const data = await response.json();
+
+    if (data.erro) {
+      this.errors.cep = 'CEP não encontrado.';
+      return;
+    }
+
+    this.cliente.endereco = data.logradouro;
+    this.cliente.bairro = data.bairro;
+    this.cliente.cidade = data.localidade;
+    this.cliente.estado = data.uf;
+    this.errors.cep = ''; // Limpa o erro de CEP se os dados forem preenchidos com sucesso
+  } catch (error) {
+    this.errors.cep = 'Erro ao consultar o CEP.';
+  }
+},
+
+
+    // Cadastrar cliente
+    async cadastrarCliente() {
+  this.errors = {}; // Limpa os erros
+
+  // Verifica se os campos obrigatórios estão preenchidos
+  if (!this.cliente.nome) {
+    this.errors.nome = 'O nome é obrigatório';
+    return;
+  }
+
+  try {
+    // Verifica se já existe um cliente cadastrado e qual o maior ID
+    const maiorId = this.clientes.length > 0 ? Math.max(...this.clientes.map(cliente => cliente.id || 0)) : 0;
+
+    // Define um novo ID para o cliente
+    this.cliente.id = maiorId + 1;
+
+    // Faz a requisição para cadastrar o cliente usando fetch
+    const response = await fetch('http://localhost:5500/clientes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.cliente) // Converte o objeto cliente para JSON
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao cadastrar cliente');
+    }
+
+    alert('Cliente cadastrado com sucesso!');
+
+    // Limpa o formulário e recarrega a lista de clientes
+    this.clearForm();
+    this.carregarClientes();
+  } catch (error) {
+    console.error('Erro ao cadastrar cliente: ', error);
+  }
+},
+
+// Editar cliente
+async editarCliente() {
+  if (!this.cliente.id) {
+    alert('Nenhum cliente selecionado para edição.');
+    return;
+  }
+  console.log('Cliente a ser editado com ID:', this.cliente.id); // Verifica se o ID está presente
+  try {
+    // Faz a requisição para editar o cliente usando fetch
+    const response = await fetch(`http://localhost:5500/clientes/${this.cliente.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.cliente) // Envia o objeto cliente atualizado no corpo da requisição
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao alterar cliente');
+    }
+
+    alert('Cliente alterado com sucesso!');
+    this.clearForm();
+    this.carregarClientes();
+  } catch (error) {
+    console.error('Erro ao alterar cliente: ', error);
+    alert('Erro ao alterar cliente. Verifique os detalhes no console.');
+  }
+},
+    
+async excluirCliente() {
   // Verifica se o campo de busca por CPF está preenchido
   if (this.cpfBusca.trim() === '') {
     alert('Por favor, preencha o CPF do cliente.');
@@ -258,8 +331,14 @@ export default {
     const clienteId = clienteEncontrado.id;  // Obtém o ID do cliente encontrado
 
     // Faz a requisição de exclusão utilizando o ID do cliente na URL
-    await axios.delete(`http://localhost:5500/clientes/${clienteId}`);
-    
+    const response = await fetch(`http://localhost:5500/clientes/${clienteId}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao excluir cliente');
+    }
+
     alert('Cliente excluído com sucesso!');
     this.clearForm();  // Limpa o formulário
     this.carregarClientes();  // Atualiza a lista de clientes
