@@ -4,17 +4,7 @@
     <div class="header">
       <h4>Vendly - Cadastro Cliente</h4>
     </div>
-
-    <!-- Busca por CPF -->
-    <div class="form-container">
-      <div class="form-row">
-        <div class="form-group full-width">
-          <label for="cpf-busca">Buscar Cliente Cadastrado por CPF</label>
-          <input type="text" id="cpf-busca" v-model="cpfBusca" placeholder="Digite o CPF" />
-          <button class="submit-button" @click="buscarClientePorCpf">Buscar</button>
-        </div>
-      </div>
-    </div>
+   
 
     <!-- Formulário de Cadastro de Cliente -->
     <div class="form-container">
@@ -119,7 +109,6 @@ export default {
         cep: '',
         numero: ''
       },
-      cpfBusca: '',
       clientes: [],
       errors: {},
       isEditing: false,
@@ -140,36 +129,6 @@ export default {
         console.error('Erro ao carregar clientes: ', error);
       }
     },
-
-    // Buscar cliente pelo CPF
-buscarClientePorCpf() {
-  if (!this.cpfBusca.trim()) {
-    alert('Preencha o campo de busca.');
-    return;
-  }
-  // Fazendo uma requisição GET ao servidor que hospeda o db.json
-  fetch(`http://localhost:5500/clientes?cpf=${this.cpfBusca}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erro na solicitação');
-      }
-      return response.json();
-    })
-    .then(data => {
-      // O "data" será o array de clientes encontrados
-      if (data.length > 0) {
-        this.cliente = { ...data[0] };  // Pega o primeiro cliente encontrado
-        console.log('Cliente encontrado com ID:', this.cliente.id); // Verifica se o ID foi carregado
-        this.isEditing = true;  // Ativa o modo de edição
-      } else {
-        alert('Cliente não encontrado.');
-      }
-    })
-    .catch(error => {
-      console.error('Erro:', error);
-      alert('Ocorreu um erro ao buscar o cliente.');
-    });
-},
 
 // Editar cliente
 async editarCliente() {

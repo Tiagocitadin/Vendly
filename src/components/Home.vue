@@ -52,7 +52,7 @@ body {
 }
 
 .homePage {
-  background-color:rgb(190, 175, 32);
+  background-color:gainsboro;
   padding: 30px;
  
 }
@@ -132,7 +132,7 @@ h4 h1{
 }
 
 .titulo {
-  background-color: rgb(180, 51, 51);
+  background-color: greenyellow;
   width: 100vw;
   padding: 10px;
   color: black;

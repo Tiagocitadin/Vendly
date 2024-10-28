@@ -1,7 +1,7 @@
 <template>
     <div class="login-page">
       <!-- Cabeçalho -->
-      <div class="homePage">
+      <div class="login">
         <h4>Vendly - Login</h4>
       </div>
   
@@ -90,18 +90,19 @@
 }
 
 /* Estilização do cabeçalho */
-.homePage {
+.login{
   text-align: center;
   margin-bottom: 20px;
 }
 
-.homePage h4 {
+.login h4 {
   font-size: 28px;
   color: #333;
   font-weight: bold;
   margin: 0; /* Remove a margem extra */
   position: absolute; /* Posiciona acima da caixa de login */
   top: 10%; /* Ajuste conforme necessário */
+  text-align: center;
 }
 
 /* Container de login */
