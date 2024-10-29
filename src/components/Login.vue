@@ -25,8 +25,9 @@
         </form>
 
         <p class="register-link">
-          Não tem uma conta? <a href="/register">Cadastre-se aqui</a>
+          Não tem uma conta? <router-link to="/cadastrocliente">Cadastre-se aqui</router-link>
         </p>
+
 
       </div>
     </div>
@@ -70,7 +71,7 @@
       }
 
       // Se passar na validação, redireciona para a página de cadastro
-        this.$router.push('/cadastrocliente');
+        this.$router.push('/cadastrocliente');     
     }
   }
 };
@@ -100,7 +101,6 @@
   color: #333;
   font-weight: bold;
   margin: 0; /* Remove a margem extra */
-  position: absolute; /* Posiciona acima da caixa de login */
   top: 10%; /* Ajuste conforme necessário */
   text-align: center;
 }

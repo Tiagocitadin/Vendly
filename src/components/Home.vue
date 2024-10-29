@@ -142,20 +142,21 @@ h4 h1{
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 50px;
+  grid-template-columns: repeat(4, 1fr); /* Aumenta o número de colunas para reduzir o tamanho dos cards */
+  gap: 20px; /* Diminui o espaço entre os cards */
 }
 
 .product-item {
   background-color: #fff;
   border: 1px solid #ddd;
-  padding: 20px;
+  padding: 10px; /* Diminui o padding interno */
   text-align: center;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  height: auto; /* Ajusta a altura automaticamente */
+  margin-top: 30px;
 }
 
 .product-item img {
@@ -164,13 +165,13 @@ h4 h1{
 }
 
 .product-item h3 {
-  margin: 10px 0;
-  font-size: 18px;
+  margin: 5px 0; /* Reduz a margem */
+  font-size: 16px; /* Diminui o tamanho da fonte */
 }
 
 .product-item p {
   color: #777;
-  font-size: 14px;
+  font-size: 12px; /* Diminui o tamanho da fonte */
   flex-grow: 1;
 }
 

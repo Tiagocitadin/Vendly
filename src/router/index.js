@@ -37,6 +37,11 @@ const routes = [
           name: 'CadastroCliente',
           component: CadastroCliente
           },
+          {
+            path: '/registro',
+            name: 'Registro',
+            component: Login
+          }
 
 ]
 
