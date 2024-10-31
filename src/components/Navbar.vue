@@ -5,28 +5,18 @@
     <router-link to="/carrinho" class="carrinho-link">
       <div class="carrinho-icon">
         <img src="/src/img/carrinho-de-compras (1).png" alt="Carrinho de compra" />
-        <span class="cart-count" v-if="productsInBag.length > 0">
-          ({{ productsInBag.length }})
+        <span class="cart-count" v-if="produtosCarrinho.length > 0">
+          ({{ produtosCarrinho.length }})
         </span>
       </div>
     </router-link>
     
-    <!-- Barra de busca -->
-    <div class="search-bar">
-      <input
-        type="text"
-        v-model="searchQuery"
-        placeholder="Buscar produtos..."
-      />
-      <button @click="searchProducts">Buscar</button>
-    </div>
-
-    <!-- Lista de Produtos -->
+      <!-- Lista de Produtos -->
     <div class="product-list">
       <div v-for="product in filteredProducts" :key="product.id" class="product-item">
-        <h3>{{ product.title }}</h3>
-        <p>{{ product.description }}</p>
-        <p>Preço: R$ {{ product.price.toFixed(2) }}</p>
+        <h3>{{ product.nome }}</h3>
+        <p>{{ product.descricao }}</p>
+        <p>Preço: R$ {{ product.preco.toFixed(2) }}</p>
       </div>
     </div>
 
@@ -47,8 +37,8 @@ export default {
   },
   computed: {
     // Obtém os produtos que estão no carrinho de compras a partir do Vuex Store
-    productsInBag() {
-      return this.$store.state.productsInBag;
+    produtosCarrinho() {
+      return this.$store.state.produtosCarrinho;
     },
     
     // Filtra os produtos com base no termo de busca
@@ -61,8 +51,8 @@ export default {
       // Converte o termo de busca para minúsculas e filtra pelo título ou descrição
       const searchTerm = this.searchQuery.toLowerCase();
       return this.products.filter(product =>
-        product.title.toLowerCase().includes(searchTerm) ||
-        product.description.toLowerCase().includes(searchTerm)
+        product.nome.toLowerCase().includes(searchTerm) ||
+        product.descricao.toLowerCase().includes(searchTerm)
       );
     }
   },

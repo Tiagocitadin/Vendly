@@ -21,12 +21,12 @@ export default {
   },
  
   created() {
-    this.$store.dispatch('loadProducts');
+    this.$store.dispatch('carregarProdutos');
   },
 
 created() {
-    this.$store.dispatch('loadProducts');
-    document.title = "Vendly"; 
+    this.$store.dispatch('carregarProdutos');
+    document.nome = "Vendly"; 
   }
 };
 </script>

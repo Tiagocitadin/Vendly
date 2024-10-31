@@ -10,40 +10,40 @@
       <form @submit.prevent="inserir">
         <div class="form-group">
           <label for="id">Codigo Produto <span>*</span></label>
-          <input type="text" id="id" v-model="product.id" placeholder="Codigo do Produto" required />
+          <input type="text" id="id" v-model="product.id" placeholder="Codigo do Produto"  />
           <small v-if="errors.id" class="error">{{ errors.id }}</small>
         </div>
 
         <div class="form-group">
-          <label for="title">Título Produto <span>*</span></label>
-          <input type="text" id="title" v-model="product.title" placeholder="Título do Produto" required />
-          <small v-if="errors.title" class="error">{{ errors.title }}</small>
+          <label for="nome">Título Produto <span>*</span></label>
+          <input type="text" id="nome" v-model="product.nome" placeholder="Título do Produto" required />
+          <small v-if="errors.nome" class="error">{{ errors.nome }}</small>
         </div>
 
         <div class="form-group">
-          <label for="description">Descrição <span>*</span></label>
-          <textarea id="description" v-model="product.description" placeholder="Descrição do Produto" required></textarea>
-          <small v-if="errors.description" class="error">{{ errors.description }}</small>
+          <label for="descricao">Descrição <span>*</span></label>
+          <textarea id="descricao" v-model="product.descricao" placeholder="Descrição do Produto" maxlength="300" required></textarea>
+          <small v-if="errors.descricao" class="error">{{ errors.descricao }}</small>
         </div>
 
         <div class="form-group">
-          <label for="estoque">Quantidade em Estoque <span>*</span></label>
-          <input type="number" id="estoque" v-model="product.estoque" placeholder="Quantidade" required />
-          <small v-if="errors.estoque" class="error">{{ errors.estoque }}</small>
+          <label for="quantidade">Quantidade em Estoque <span>*</span></label>
+          <input type="number" id="quantidade" v-model="product.quantidade" placeholder="Quantidade" required />
+          <small v-if="errors.quantidade" class="error">{{ errors.quantidade }}</small>
         </div>
 
         <div class="form-group">
-          <label for="price">Valor <span>*</span></label>
-          <input type="number" id="price" v-model="product.price" placeholder="R$" required />
-          <small v-if="errors.price" class="error">{{ errors.price }}</small>
+          <label for="preco">Valor <span>*</span></label>
+          <input type="number" id="preco" v-model="product.preco" placeholder="R$" required />
+          <small v-if="errors.preco" class="error">{{ errors.preco }}</small>
         </div>
 
         <div class="form-group">
-          <label for="image">Imagem do Produto </label>
-          <input type="file" id="image" @change="onImageSelected" accept="image/*" />
-          <small v-if="errors.image" class="error">{{ errors.image }}</small>
-          <div v-if="product.image">
-            <img :src="product.image" alt="Pré-visualização da imagem" style="max-width: 200px; margin-top: 10px;" />
+          <label for="imagem">Imagem do Produto </label>
+          <input type="file" id="imagem" @change="onImageSelected" accept="imagem/*" />
+          <small v-if="errors.imagem" class="error">{{ errors.imagem }}</small>
+          <div v-if="product.imagem">
+            <img :src="product.imagem" alt="Pré-visualização da imagem" style="max-width: 200px; margin-top: 10px;" />
           </div>
         </div>
 
@@ -73,11 +73,11 @@ export default {
     return {
       product: {
         id: '',
-        title: '',
-        description: '',
-        estoque: '',
-        price: '',
-        image: ''
+        nome: '',
+        descricao: '',
+        quantidade: '',
+        preco: '',
+        imagem: ''
       },
       errors: {},
       debouncedCheckProduct: null, // Armazena a função debounce
@@ -101,15 +101,15 @@ export default {
     async checkProduct(newId) {
       try {
         // Faz uma requisição GET para verificar se o produto com o ID informado já existe
-        const response = await axios.get(`http://localhost:5500/produtos/${newId}`);
+        const response = await axios.get(`https://5599-189-112-39-185.ngrok-free.app/produtos/${newId}`);
 
         // Se o produto for encontrado, preenche os campos do formulário com as informações
         if (response.data) {
-          this.product.title = response.data.title;
-          this.product.description = response.data.description;
-          this.product.estoque = response.data.estoque;
-          this.product.price = response.data.price;
-          this.product.image = response.data.image;
+          this.product.nome = response.data.nome;
+          this.product.descricao = response.data.descricao;
+          this.product.quantidade = response.data.quantidade;
+          this.product.preco = response.data.preco;
+          this.product.imagem = "https://5599-189-112-39-185.ngrok-free.app" + response.data.imagem;
           alert('Produto encontrado e formulário preenchido.');
         } else {
           // Se não houver dados no retorno
@@ -129,11 +129,11 @@ export default {
     clearForm() {
       this.product = {
         id: '', // Mantém o código do produto
-        title: '',
-        description: '',
-        estoque: '',
-        price: '',
-        image: ''
+        nome: '',
+        descricao: '',
+        quantidade: '',
+        preco: '',
+        imagem: ''
       };
     },
 
@@ -142,17 +142,17 @@ export default {
       this.errors = {}; // Limpa os erros antes de verificar o formulário
 
       // Simulação de validação
-      if (!this.product.title) {
-        this.errors.title = 'O título do produto é obrigatório';
+      if (!this.product.nome) {
+        this.errors.nome = 'O título do produto é obrigatório';
       }
-      if (!this.product.description) {
-        this.errors.description = 'A descrição do produto é obrigatória';
+      if (!this.product.descricao) {
+        this.errors.descricao = 'A descrição do produto é obrigatória';
       }
-      if (!this.product.estoque) {
-        this.errors.estoque = 'A quantidade em estoque é obrigatória';
+      if (!this.product.quantidade) {
+        this.errors.quantidade = 'A quantidade em quantidade é obrigatória';
       }
-      if (!this.product.price) {
-        this.errors.price = 'O valor do produto é obrigatório';
+      if (!this.product.preco) {
+        this.errors.preco = 'O valor do produto é obrigatório';
       }
 
       // Se não houver erros, simula o envio do formulário
@@ -162,7 +162,7 @@ export default {
 
       try {
         // Verificar se já existe um produto com o mesmo ID
-        const response = await axios.get(`http://localhost:5500/produtos?id=${this.product.id}`);
+        const response = await axios.get(`https://5599-189-112-39-185.ngrok-free.app/produtos?id=${this.product.id}`);
 
         // Se o produto já existir, impedir o cadastro
         if (response.data.length > 0) {
@@ -170,9 +170,9 @@ export default {
           return;
         }
           // Enviar o produto para o db.json usando a API do json-server
-          await axios.post('http://localhost:5500/produtos', this.product);
+          await axios.post('https://5599-189-112-39-185.ngrok-free.app/produtos', this.product);
 
-          alert(this.product.title + ' cadastrado com sucesso!');
+          alert(this.product.nome + ' cadastrado com sucesso!');
 
           // Limpa o formulário após o cadastro
           this.clearForm();
@@ -194,9 +194,9 @@ export default {
 
       try {
         // Faz a requisição PUT para alterar o produto existente
-        await axios.put(`http://localhost:5500/produtos/${id}`, this.product);
+        await axios.put(`https://5599-189-112-39-185.ngrok-free.app/produtos/${id}`, this.product);
 
-        alert(this.product.title + ' atualizado com sucesso!');
+        alert(this.product.nome + ' atualizado com sucesso!');
         this.clearForm();
       } catch (error) {
         console.error('Erro ao alterar o produto: ', error);
@@ -210,7 +210,7 @@ export default {
       if (file) {
         const reader = new FileReader();
         reader.onload = e => {
-          this.product.image = e.target.result; // Base64 ou caminho da imagem
+          this.product.imagem = e.target.result; // Base64 ou caminho da imagem
         };
         reader.readAsDataURL(file);
       }
@@ -224,7 +224,7 @@ export default {
       }
       try {
         // Faz a requisição DELETE para o servidor, removendo o produto com o id fornecido
-        await axios.delete(`http://localhost:5500/produtos/${id}`);
+        await axios.delete(`https://5599-189-112-39-185.ngrok-free.app/produtos/${id}`);
 
         confirm('Deseja !');
         this.clearForm();

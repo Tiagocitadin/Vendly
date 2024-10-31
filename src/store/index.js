@@ -4,44 +4,44 @@ import axios from 'axios';
 export default createStore({
   state: {
     products: [],
-    productsInBag: []
+    produtosCarrinho: []
   },
 
   mutations: {
-    loadProducts(state, products) {     
+    carregarProdutos(state, products) {     
       state.products = products;
     },
 
-    addToBag(state, product) {
-      state.productsInBag.push(product);
+    adicionarAoCarrinho(state, product) {
+      state.produtosCarrinho.push(product);
     },
 
-    removeFromBag(state, productId) {
-      const updatedBag = state.productsInBag.filter(item => productId !== item.id);
-      state.productsInBag = updatedBag;
+    removerDoCarrinho(state, productId) {
+      const updatedBag = state.produtosCarrinho.filter(item => productId !== item.id);
+      state.produtosCarrinho = updatedBag;
     },
   },
 
   actions: {
     // Carrega os produtos usando a API local na porta 5500
-    loadProducts({ commit }) {
+    carregarProdutos({ commit }) {
       axios
-        .get('http://localhost:5500/produtos')  // Certifique-se de que este é o caminho correto da API
+        .get('https://5599-189-112-39-185.ngrok-free.app/produtos')  // Certifique-se de que este é o caminho correto da API
         .then(response => {
-          commit('loadProducts', response.data);
+          commit('carregarProdutos', response.data);
         })
         .catch(error => {
           console.error('Erro ao carregar produtos: ', error);
         });
     },   
 
-    addToBag({ commit }, product) {
-      commit('addToBag', product);
+    adicionarAoCarrinho({ commit }, product) {
+      commit('adicionarAoCarrinho', product);
     },
     
-    removeFromBag({ commit }, productId) {
+    removerDoCarrinho({ commit }, productId) {
       if (confirm('Deseja remover este item?')) {
-        commit('removeFromBag', productId);
+        commit('removerDoCarrinho', productId);
       }
     },
   },

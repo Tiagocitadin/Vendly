@@ -2,25 +2,25 @@
   <div class="carrinho">
     <div class="items">
 
-      <template v-if="productsInBag.length"> 
+      <template v-if="produtosCarrinho.length"> 
 
-        <div v-for="(product, index) in productsInBag" :key="index" class="item">
-                <div class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remove item</div>
+        <div v-for="(product, index) in produtosCarrinho" :key="index" class="item">
+                <div class="remove" @click="this.$store.dispatch('removerDoCarrinho', product.id)">Remove item</div>
                 <div class="photo">
-                  <img :src="product.image"  alt="produto">
+                  <img :src="product.imagem"  alt="produto">
                 </div>
         
-                <div class="description">{{ product.title }}</div>
+                <div class="descricao">{{ product.nome }}</div>
         
-                <div class="price">          
-                  <span class="quantity-area">
-                    <button :disabled="product.quantity <=1" @click="product.quantity --">-</button>
+                <div class="preco">          
+                  <span class="quantidade-area">
+                    <button :disabled="product.quantidade <=1" @click="product.quantidade --">-</button>
         
-                    <span class="quantity">{{ product.quantity }}</span>
-                    <button @click="product.quantity ++">+</button>
+                    <span class="quantidade">{{ product.quantidade }}</span>
+                    <button @click="product.quantidade ++">+</button>
                   </span>
         
-                  <span class="amount"> R$ {{ (product.price * product.quantity).toFixed(2) }}</span>
+                  <span class="amount"> R$ {{ (product.preco * product.quantidade).toFixed(2) }}</span>
                   
                 </div>               
               </div>
@@ -48,8 +48,8 @@ export default {
   methods: {
     calcularTotal() {
       var total = 0;
-      this.productsInBag.forEach(item => {
-        total += item.price * item.quantity;
+      this.produtosCarrinho.forEach(item => {
+        total += item.preco * item.quantidade;
         
       });
       return total.toFixed(2);
@@ -58,8 +58,8 @@ export default {
 
 
   computed: {    
-     productsInBag(){
-      return this.$store.state.productsInBag;
+    produtosCarrinho(){
+      return this.$store.state.produtosCarrinho;
     }
   },
 }
@@ -90,7 +90,7 @@ export default {
         cursor: pointer;
       }
 
-      .quantity-area {
+      .quantidade-area {
         display: flex;
         align-items: center;
         margin: 8px auto;
@@ -115,7 +115,7 @@ export default {
           }
         }
 
-        .quantity {
+        .quantidade {
           margin: 0 8px;
           font-size: 16px;
           line-height: 24px;
@@ -128,14 +128,14 @@ export default {
         }
       }
 
-      .description {
+      .descricao {
         padding-left: 30px;
         box-sizing: border-box;
         max-width: 50%;
         font-size: 14px;
       }
 
-      .price {
+      .preco {
         display: flex;
         align-items: center;
 

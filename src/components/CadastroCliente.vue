@@ -4,13 +4,11 @@
     <div class="header">
       <h4>Vendly - Cadastro Cliente</h4>
     </div>
-   
 
     <!-- Formulário de Cadastro de Cliente -->
     <div class="form-container">
       <form @submit.prevent="submitForm">
-        <div class="form-row">     
-
+        <div class="form-row">
           <div class="form-group half-width">
             <label for="nome">Nome <span>*</span></label>
             <input type="text" id="nome" v-model="cliente.nome" placeholder="Nome" required />
@@ -19,7 +17,7 @@
 
           <div class="form-group half-width">
             <label for="cpf">CPF <span>*</span></label>
-            <input type="text" id="cpf" v-model="cliente.cpf" placeholder="000.000.000-00" required />
+            <input type="text" id="cpf" v-model="cliente.cpf" placeholder="000.000.000-00" @input="cliente.cpf = formataCpf(cliente.cpf)"  required />
             <small v-if="errors.cpf" class="error">{{ errors.cpf }}</small>
           </div>
         </div>
@@ -33,7 +31,7 @@
 
           <div class="form-group half-width">
             <label for="telefone">Telefone <span>*</span></label>
-            <input type="text" id="telefone" v-model="cliente.telefone" placeholder="(xx)xxxxx-xxxx" required />
+            <input type="text" id="telefone" v-model="cliente.telefone" placeholder="(XX)XXXXX-XXXX" @input="cliente.telefone = formataTelefone(cliente.telefone)" required />
             <small v-if="errors.telefone" class="error">{{ errors.telefone }}</small>
           </div>
         </div>
@@ -42,7 +40,7 @@
         <div class="form-row">
           <div class="form-group half-width">
             <label for="cep">CEP </label>
-            <input type="text" id="cep" v-model="cliente.cep" @blur="consultarCep" placeholder="CEP" />
+            <input type="text" id="cep" v-model="cliente.cep" @blur="consultarCep" @input="cliente.cep = formataCep(cliente.cep)" placeholder="CEP" />
             <small v-if="errors.cep" class="error">{{ errors.cep }}</small>
           </div>
 
@@ -120,6 +118,39 @@ export default {
   },
 
   methods: {
+    formataCpf(cpf) {
+      // Remove qualquer caractere não numérico
+      cpf = cpf.replace(/\D/g, '');
+      // Formata o CPF no formato 000.000.000-00
+      cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+      cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+      cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      return cpf.slice(0, 14);
+    },
+
+    formataTelefone(telefone) {
+    // Remove qualquer caractere não numérico
+    telefone = telefone.replace(/\D/g, '');
+
+    // Aplica a formatação no formato (XX)XXXXX-XXXX
+    telefone = telefone.replace(/^(\d{2})(\d)/, '($1) $2');
+    telefone = telefone.replace(/(\d{5})(\d)/, '$1-$2');
+
+    // Limita o número de caracteres a 14 (incluindo parênteses e hífen)
+    return telefone.slice(0, 15);
+  },
+
+  formataCep(cep) {
+    // Remove qualquer caractere não numérico
+    cep = cep.replace(/\D/g, '');
+
+    // Aplica a formatação no formato XXXXX-XXX
+    cep = cep.replace(/^(\d{5})(\d)/, '$1-$2');
+
+    // Limita o número de caracteres a 9 (incluindo o hífen)
+    return cep.slice(0, 9);
+  },
+
     // Carregar a lista de clientes
     async carregarClientes() {
       try {
@@ -130,190 +161,105 @@ export default {
       }
     },
 
-// Editar cliente
-async editarCliente() {
-  if (!this.cliente.id) {
-    alert('Nenhum cliente selecionado para edição.');
-    return;
-  }
-  console.log('Cliente a ser editado com ID:', this.cliente.id); // Verifica se o ID está presente
-  try {
-    // Faz a requisição para editar o cliente usando fetch
-    const response = await fetch(`http://localhost:5500/clientes/${this.cliente.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.cliente) // Envia o objeto cliente atualizado no corpo da requisição
-    });
+    // Editar cliente
+    async editarCliente() {
+      if (!this.cliente.id) {
+        alert('Nenhum cliente selecionado para edição.');
+        return;
+      }
+      try {
+        const response = await fetch(`http://localhost:5500/clientes/${this.cliente.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.cliente)
+        });
+        if (!response.ok) throw new Error('Erro ao alterar cliente');
+        alert('Cliente alterado com sucesso!');
+        this.clearForm();
+        this.carregarClientes();
+      } catch (error) {
+        console.error('Erro ao alterar cliente: ', error);
+        alert('Erro ao alterar cliente. Verifique os detalhes no console.');
+      }
+    },
 
-    if (!response.ok) {
-      throw new Error('Erro ao alterar cliente');
-    }
-
-    alert('Cliente alterado com sucesso!');
-    this.clearForm();
-    this.carregarClientes();
-  } catch (error) {
-    console.error('Erro ao alterar cliente: ', error);
-    alert('Erro ao alterar cliente. Verifique os detalhes no console.');
-  }
-},
-
-
-    // Método para consultar o CEP e preencher automaticamente os campos de endereço
+    // Consultar o CEP e preencher automaticamente os campos de endereço
     async consultarCep() {
-  const cep = this.cliente.cep.replace(/\D/g, ''); // Remove caracteres não numéricos
-
-  if (cep.length !== 8) {
-    this.errors.cep = 'CEP inválido.';
-    return;
-  }
-
-  try {
-    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-
-    if (!response.ok) {
-      throw new Error('Erro na consulta do CEP.');
-    }
-
-    const data = await response.json();
-
-    if (data.erro) {
-      this.errors.cep = 'CEP não encontrado.';
-      return;
-    }
-
-    this.cliente.endereco = data.logradouro;
-    this.cliente.bairro = data.bairro;
-    this.cliente.cidade = data.localidade;
-    this.cliente.estado = data.uf;
-    this.errors.cep = ''; // Limpa o erro de CEP se os dados forem preenchidos com sucesso
-  } catch (error) {
-    this.errors.cep = 'Erro ao consultar o CEP.';
-  }
-},
-
+      const cep = this.cliente.cep.replace(/\D/g, '');
+      if (cep.length !== 8) {
+        this.errors.cep = 'CEP inválido.';
+        return;
+      }
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        if (!response.ok) throw new Error('Erro na consulta do CEP.');
+        const data = await response.json();
+        if (data.erro) {
+          this.errors.cep = 'CEP não encontrado.';
+          return;
+        }
+        this.cliente.endereco = data.logradouro;
+        this.cliente.bairro = data.bairro;
+        this.cliente.cidade = data.localidade;
+        this.cliente.estado = data.uf;
+        this.errors.cep = '';
+      } catch (error) {
+        this.errors.cep = 'Erro ao consultar o CEP.';
+      }
+    },
 
     // Cadastrar cliente
     async cadastrarCliente() {
-  this.errors = {}; // Limpa os erros
+      this.errors = {};
+      if (!this.cliente.nome) {
+        this.errors.nome = 'O nome é obrigatório';
+        return;
+      }
+      try {
+        const maiorId = this.clientes.length > 0 ? Math.max(...this.clientes.map(cliente => cliente.id || 0)) : 0;
+        this.cliente.id = maiorId + 1;
+        const response = await fetch('http://localhost:5500/clientes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.cliente)
+        });
+        if (!response.ok) throw new Error('Erro ao cadastrar cliente');
+        alert('Cliente cadastrado com sucesso!');
+        this.clearForm();
+        this.carregarClientes();
+      } catch (error) {
+        console.error('Erro ao cadastrar cliente: ', error);
+      }
+    },
 
-  // Verifica se os campos obrigatórios estão preenchidos
-  if (!this.cliente.nome) {
-    this.errors.nome = 'O nome é obrigatório';
-    return;
-  }
+    // Excluir cliente
+    async excluirCliente() {
+      if (!confirm('Tem certeza que deseja excluir este cliente?')) return;
+      try {
+        const clienteId = this.cliente.id;
+        const response = await fetch(`http://localhost:5500/clientes/${clienteId}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) throw new Error('Erro ao excluir cliente');
+        alert('Cliente excluído com sucesso!');
+        this.clearForm();
+        this.carregarClientes();
+      } catch (error) {
+        console.error('Erro ao excluir cliente: ', error);
+        alert('Erro ao excluir cliente. Verifique os detalhes no console.');
+      }
+    },
 
-  try {
-    // Verifica se já existe um cliente cadastrado e qual o maior ID
-    const maiorId = this.clientes.length > 0 ? Math.max(...this.clientes.map(cliente => cliente.id || 0)) : 0;
-
-    // Define um novo ID para o cliente
-    this.cliente.id = maiorId + 1;
-
-    // Faz a requisição para cadastrar o cliente usando fetch
-    const response = await fetch('http://localhost:5500/clientes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.cliente) // Converte o objeto cliente para JSON
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao cadastrar cliente');
-    }
-
-    alert('Cliente cadastrado com sucesso!');
-
-    // Limpa o formulário e recarrega a lista de clientes
-    this.clearForm();
-    this.carregarClientes();
-  } catch (error) {
-    console.error('Erro ao cadastrar cliente: ', error);
-  }
-},
-
-// Editar cliente
-async editarCliente() {
-  if (!this.cliente.id) {
-    alert('Nenhum cliente selecionado para edição.');
-    return;
-  }
-  console.log('Cliente a ser editado com ID:', this.cliente.id); // Verifica se o ID está presente
-  try {
-    // Faz a requisição para editar o cliente usando fetch
-    const response = await fetch(`http://localhost:5500/clientes/${this.cliente.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.cliente) // Envia o objeto cliente atualizado no corpo da requisição
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao alterar cliente');
-    }
-
-    alert('Cliente alterado com sucesso!');
-    this.clearForm();
-    this.carregarClientes();
-  } catch (error) {
-    console.error('Erro ao alterar cliente: ', error);
-    alert('Erro ao alterar cliente. Verifique os detalhes no console.');
-  }
-},
-    
-async excluirCliente() {
-  // Verifica se o campo de busca por CPF está preenchido
-  if (this.cpfBusca.trim() === '') {
-    alert('Por favor, preencha o CPF do cliente.');
-    return;
-  }
-
-  // Confirma se o usuário deseja excluir o cliente
-  if (!confirm('Tem certeza que deseja excluir este cliente?')) {
-    return; // Se não confirmar, sai da função
-  }
-
-  try {
-    // Busca o cliente pelo CPF digitado
-    const clienteEncontrado = this.clientes.find(cliente => cliente.cpf === this.cpfBusca.trim());
-
-    // Verifica se o cliente foi encontrado
-    if (!clienteEncontrado) {
-      alert('Cliente não encontrado.');
-      return;
-    }
-
-    const clienteId = clienteEncontrado.id;  // Obtém o ID do cliente encontrado
-
-    // Faz a requisição de exclusão utilizando o ID do cliente na URL
-    const response = await fetch(`http://localhost:5500/clientes/${clienteId}`, {
-      method: 'DELETE',
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao excluir cliente');
-    }
-
-    alert('Cliente excluído com sucesso!');
-    this.clearForm();  // Limpa o formulário
-    this.carregarClientes();  // Atualiza a lista de clientes
-  } catch (error) {
-    console.error('Erro ao excluir cliente: ', error);
-    alert('Erro ao excluir cliente. Verifique os detalhes no console.');
-  }
-},
-
-    // Método para limpar o formulário após o cadastro ou edição
+    // Limpar o formulário após cadastro ou edição
     clearForm() {
       this.cliente = {
         id: '',
         nome: '',
         email: '',
-        senha: '',
         cpf: '',
         telefone: '',
         endereco: '',
@@ -331,7 +277,7 @@ async excluirCliente() {
 </script>
 
 <style>
-/* Contêiner principal */
+/* Estilos CSS (inalterados para foco no código principal) */
 .cadastro-container {
   max-width: 900px;
   margin: 50px auto;
@@ -341,8 +287,6 @@ async excluirCliente() {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   font-family: 'Helvetica Neue', Arial, sans-serif;
 }
-
-/* Cabeçalho */
 .header h4 {
   text-align: center;
   font-size: 24px;
@@ -351,30 +295,17 @@ async excluirCliente() {
   margin-bottom: 20px;
   text-transform: uppercase;
 }
-
-/* Form Row */
 .form-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
 }
-
-/* Full width */
-.full-width {
-  width: 100%;
-}
-
-/* Half width */
-.half-width {
-  width: 48%;
-}
-
-/* Grupos de formulário */
+.full-width { width: 100%; }
+.half-width { width: 48%; }
 .form-group {
   display: flex;
   flex-direction: column;
 }
-
 .form-group label {
   font-weight: 600;
   color: #444;
@@ -382,7 +313,6 @@ async excluirCliente() {
   font-size: 14px;
   text-transform: uppercase;
 }
-
 .form-group input {
   padding: 8px 10px;
   font-size: 14px;
@@ -392,19 +322,12 @@ async excluirCliente() {
   outline: none;
   transition: border-color 0.3s ease;
 }
-
-.form-group input:focus {
-  border-color: #007bff;
-}
-
-/* Exibição de mensagens de erro */
+.form-group input:focus { border-color: #007bff; }
 .error {
   color: #e74c3c;
   font-size: 12px;
   margin-top: 5px;
 }
-
-/* Botões */
 .submit-button, .edit-button, .delete-button, .cancel-button {
   padding: 12px 20px;
   font-size: 14px;
@@ -414,36 +337,12 @@ async excluirCliente() {
   cursor: pointer;
   margin-right: 10px;
 }
-
-.submit-button {
-  background-color: #007bff;
-}
-
-.edit-button {
-  background-color: #3498db;
-}
-
-.delete-button {
-  background-color: #e74c3c;
-}
-
-.cancel-button {
-  background-color: #95a5a6;
-}
-
-.submit-button:hover {
-  background-color: #0056b3;
-}
-
-.edit-button:hover {
-  background-color: #2980b9;
-}
-
-.delete-button:hover {
-  background-color: #c0392b;
-}
-
-.cancel-button:hover {
-  background-color: #7f8c8d;
-}
+.submit-button { background-color: #007bff; }
+.edit-button { background-color: #3498db; }
+.delete-button { background-color: #e74c3c; }
+.cancel-button { background-color: #95a5a6; }
+.submit-button:hover { background-color: #0056b3; }
+.edit-button:hover { background-color: #2980b9; }
+.delete-button:hover { background-color: #c0392b; }
+.cancel-button:hover { background-color: #7f8c8d; }
 </style>

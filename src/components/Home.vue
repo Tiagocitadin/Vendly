@@ -14,9 +14,9 @@
       <div class="product-grid">
         <!-- Iterar sobre a lista de produtos mais vendidos com v-for -->
         <div class="product-item" v-for="(product, index) in maisVendidos" :key="index">
-          <img :src="product.image" :alt="product.name" />
-          <h3>{{ product.title }}</h3>
-          <p>{{ product.description }}</p>
+          <img :src="product.imagem" :alt="product.name" />
+          <h3>{{ product.nome }}</h3>
+          <p>{{ product.descricao }}</p>
         </div>
       </div>
     </div>

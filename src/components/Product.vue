@@ -1,25 +1,26 @@
 <template>
   <div class="produtos">
     <div class="products">
-      <div v-for="(product, index) in products" :key="index" class="product" :class="{inBag : isInBag(product)}">
-        <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}">
+      
+      <div v-for="(product, index) in products" :key="index" class="product" :class="{noCarrinho : produtoNoCarrinho(product)}">
+        <div class="product-imagem" :style="{backgroundImage: 'url(https://5599-189-112-39-185.ngrok-free.app' + product.imagem + ')'}">
         </div>
 
         <div>
-          <h4>{{ product.title }}</h4>
-          <p>{{ product.description }}</p>
+          <h4>{{ product.nome }}</h4>
+          <p>{{ product.descricao }}</p>
         </div>
 
         <div>
-          <p class="price"> R$ {{ product.price.toFixed(2) }}</p> 
+          <p class="preco"> R$ {{ product.preco }}</p> 
         </div>
      
         <div class="parcela">
-          <p> 10x R$ {{ calculoParcela(product.price).toFixed(2) }}</p>
+          <p> 10x R$ {{ calculoParcela(product.preco).toFixed(2) }}</p>
         </div>
     
-        <button v-if="!isInBag(product)" @click="addToBag(product)">Adicionar ao Carrinho</button>  
-        <button v-else class="remove" @click="removeFromBag(product.id)">Remover do Carrinho</button>     
+        <button v-if="!produtoNoCarrinho(product)" @click="adicionarAoCarrinho(product)">Adicionar ao Carrinho</button>  
+        <button v-else class="remove" @click="removerDoCarrinho(product.id)">Remover do Carrinho</button>     
       </div>       
     </div> 
   </div>
@@ -36,28 +37,28 @@ export default {
     products() {
       return this.$store.state.products; // Obtém os produtos do state
     },
-    productsInBag() {
-      return this.$store.state.productsInBag; // Obtém os produtos no carrinho
+    produtosCarrinho() {
+      return this.$store.state.produtosCarrinho; // Obtém os produtos no carrinho
     }
   },
 
   methods: {
-    addToBag(product) {
-      product.quantity = 1;
-      this.$store.dispatch('addToBag', product); // Adiciona o produto ao carrinho
+    adicionarAoCarrinho(product) {
+      product.quantidade = 1;
+      this.$store.dispatch('adicionarAoCarrinho', product); // Adiciona o produto ao carrinho
     },
     
-    removeFromBag(productId) {
-      this.$store.dispatch('removeFromBag', productId); // Remove o produto do carrinho
+    removerDoCarrinho(productId) {
+      this.$store.dispatch('removerDoCarrinho', productId); // Remove o produto do carrinho
     },
     
-    isInBag(product) {
-      return this.productsInBag.some(item => item.id === product.id); // Verifica se o produto já está no carrinho
+    produtoNoCarrinho(product) {
+      return this.produtosCarrinho.some(item => item.id === product.id); // Verifica se o produto já está no carrinho
     },
     
-    calculoParcela(price) {
+    calculoParcela(preco) {
       const parcelas = 10;
-      return price / parcelas; // Calcula o valor da parcela
+      return preco / parcelas; // Calcula o valor da parcela
     }
   },
 
@@ -94,18 +95,23 @@ export default {
         flex: 0 0 90%;
       }
   
-      &.inBag {
+      &.noCarrinho {
         border: 1px solid #007bff;
       }
       
-      .product-image {
+      .product-imagem {
         margin: 20px auto;
         width: 100%;
         height: 300px; /* Define uma altura fixa */
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        background-color: #f0f0f0;
+       
+      }
+
+      &:hover {
+        transform: scale(1.05); /* Aumenta levemente o card */
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3); /* Aumenta a sombra */
       }
 
       h4 {
@@ -116,13 +122,13 @@ export default {
         text-align: center;
       }
 
-      p.price {
+      p.preco {
         font-size: 20px;
         font-weight: bold;
         text-align: center;
       }
 
-      p.description {
+      p.descricao {
         font-size: 12px;
         color: #555;
         line-height: 1.4;
