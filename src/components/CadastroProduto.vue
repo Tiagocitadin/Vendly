@@ -1,55 +1,38 @@
 <template>
   <div class="cadastro-container">
-    <!-- Cabeçalho -->
     <div class="header">
-      <h4>Vendly - Cadastro Produto</h4>
+      <h4>{{ isEditing ? 'Editar Produto' : 'Cadastrar Produto' }}</h4>
     </div>
 
-    <!-- Formulário de Cadastro de Produto -->
     <div class="product-registration">
-      <form @submit.prevent="inserir">
+      <form @submit.prevent="inserirOuAtualizar">
         <div class="form-group">
-          <label for="id">Codigo Produto <span>*</span></label>
-          <input type="text" id="id" v-model="product.id" placeholder="Codigo do Produto"  />
-          <small v-if="errors.id" class="error">{{ errors.id }}</small>
+          <label for="id">Código do Produto</label>
+          <input type="text" id="id" v-model="produto.id" :disabled="isEditing" placeholder="Código do Produto" required />
         </div>
 
         <div class="form-group">
-          <label for="nome">Título Produto <span>*</span></label>
-          <input type="text" id="nome" v-model="product.nome" placeholder="Título do Produto" required />
-          <small v-if="errors.nome" class="error">{{ errors.nome }}</small>
+          <label for="nome">Título do Produto</label>
+          <input type="text" id="nome" v-model="produto.nome" placeholder="Título do Produto" required />
         </div>
 
         <div class="form-group">
-          <label for="descricao">Descrição <span>*</span></label>
-          <textarea id="descricao" v-model="product.descricao" placeholder="Descrição do Produto" maxlength="300" required></textarea>
-          <small v-if="errors.descricao" class="error">{{ errors.descricao }}</small>
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" v-model="produto.descricao" placeholder="Descrição do Produto" required></textarea>
         </div>
 
         <div class="form-group">
-          <label for="quantidade">Quantidade em Estoque <span>*</span></label>
-          <input type="number" id="quantidade" v-model="product.quantidade" placeholder="Quantidade" required />
-          <small v-if="errors.quantidade" class="error">{{ errors.quantidade }}</small>
+          <label for="quantidade">Quantidade</label>
+          <input type="number" id="quantidade" v-model="produto.quantidade" placeholder="Quantidade" required />
         </div>
 
         <div class="form-group">
-          <label for="preco">Valor <span>*</span></label>
-          <input type="number" id="preco" v-model="product.preco" placeholder="R$" required />
-          <small v-if="errors.preco" class="error">{{ errors.preco }}</small>
+          <label for="preco">Preço (R$)</label>
+          <input type="number" id="preco" v-model="produto.preco" placeholder="Preço" required />
         </div>
 
-        <div class="form-group">
-          <label for="imagem">Imagem do Produto </label>
-          <input type="file" id="imagem" @change="onImageSelected" accept="imagem/*" />
-          <small v-if="errors.imagem" class="error">{{ errors.imagem }}</small>
-          <div v-if="product.imagem">
-            <img :src="product.imagem" alt="Pré-visualização da imagem" style="max-width: 200px; margin-top: 10px;" />
-          </div>
-        </div>
-
-        <button type="submit" class="submit-button">Cadastrar</button>
-        <button @click.prevent="alterar(product.id)" class="submit-button">Alterar</button>
-        <button @click.prevent="excluir(product.id)" class="submit-button delete-button">Excluir</button>
+        <button type="submit" class="submit-button">{{ isEditing ? 'Atualizar' : 'Cadastrar' }}</button>
+        <button @click.prevent="voltarParaLista" class="cancel-button">Cancelar</button>
       </form>
     </div>
   </div>
@@ -58,181 +41,56 @@
 <script>
 import axios from 'axios';
 
-// Função debounce para atrasar a execução da verificação
-function debounce(func, wait) {
-  let timeout;
-  return function (...args) {
-    const context = this;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(context, args), wait);
-  };
-}
-
 export default {
   data() {
     return {
-      product: {
+      produto: {
         id: '',
         nome: '',
         descricao: '',
         quantidade: '',
-        preco: '',
-        imagem: ''
+        preco: ''
       },
-      errors: {},
-      debouncedCheckProduct: null, // Armazena a função debounce
+      isEditing: false
     };
   },
-  created() {
-    // Inicializa a função debounce com atraso de 500ms
-    this.debouncedCheckProduct = debounce(this.checkProduct, 500);
-  },
-  watch: {
-    // Monitora o campo 'id' para verificar se o produto já existe
-    'product.id'(newId) {
-      if (newId) {
-        // Executa a função com debounce para aguardar a digitação terminar
-        this.debouncedCheckProduct(newId);
-      }
-    }
-  },
   methods: {
-    // Método para verificar se o produto já existe
-    async checkProduct(newId) {
-      try {
-        // Faz uma requisição GET para verificar se o produto com o ID informado já existe
-        const response = await axios.get(`https://5599-189-112-39-185.ngrok-free.app/produtos/${newId}`);
 
-        // Se o produto for encontrado, preenche os campos do formulário com as informações
-        if (response.data) {
-          this.product.nome = response.data.nome;
-          this.product.descricao = response.data.descricao;
-          this.product.quantidade = response.data.quantidade;
-          this.product.preco = response.data.preco;
-          this.product.imagem = "https://5599-189-112-39-185.ngrok-free.app" + response.data.imagem;
-          alert('Produto encontrado e formulário preenchido.');
-        } else {
-          // Se não houver dados no retorno
-          this.clearForm();
-          this.product.id = newId;
-          alert('Produto não encontrado. Preencha os dados para cadastrar.');
-        }
-      } catch (error) {
-        // Se o produto não for encontrado, limpa os campos para permitir um novo cadastro
-        this.clearForm();
-        this.product.id = newId; // Mantém o código preenchido
-        alert('Produto não encontrado. Preencha os dados para cadastrar.');
-      }
-    },
-    
-    // Método para limpar o formulário
-    clearForm() {
-      this.product = {
-        id: '', // Mantém o código do produto
-        nome: '',
-        descricao: '',
-        quantidade: '',
-        preco: '',
-        imagem: ''
-      };
-    },
-
-    // Método para cadastrar o produto e enviar para o db.json via API
-    async inserir() {
-      this.errors = {}; // Limpa os erros antes de verificar o formulário
-
-      // Simulação de validação
-      if (!this.product.nome) {
-        this.errors.nome = 'O título do produto é obrigatório';
-      }
-      if (!this.product.descricao) {
-        this.errors.descricao = 'A descrição do produto é obrigatória';
-      }
-      if (!this.product.quantidade) {
-        this.errors.quantidade = 'A quantidade em quantidade é obrigatória';
-      }
-      if (!this.product.preco) {
-        this.errors.preco = 'O valor do produto é obrigatório';
-      }
-
-      // Se não houver erros, simula o envio do formulário
-      if (Object.keys(this.errors).length > 0) {
-        return;
-      }
-
-      try {
-        // Verificar se já existe um produto com o mesmo ID
-        const response = await axios.get(`https://5599-189-112-39-185.ngrok-free.app/produtos?id=${this.product.id}`);
-
-        // Se o produto já existir, impedir o cadastro
-        if (response.data.length > 0) {
-          alert('Produto já cadastrado com este código. Use um código diferente.');
-          return;
-        }
-          // Enviar o produto para o db.json usando a API do json-server
-          await axios.post('https://5599-189-112-39-185.ngrok-free.app/produtos', this.product);
-
-          alert(this.product.nome + ' cadastrado com sucesso!');
-
-          // Limpa o formulário após o cadastro
-          this.clearForm();
-          
+    created() {
+  this.buscarProdutos();
+},
+    async buscarProduto() {
+      const produtoId = this.$route.query.id;
+      if (produtoId) {
+        try {
+          const response = await axios.get(`http://localhost:5500/produtos/${produtoId}`);
+          this.produto = response.data;
+          this.isEditing = true;
         } catch (error) {
-          console.error('Erro ao cadastrar o produto: ', error);
-          alert('Erro ao cadastrar o produto');
-        
+          console.error("Erro ao buscar produto:", error);
+        }
       }
-    
     },
-
-    // Método para alterar o produto
-    async alterar(id) {
-      if (!id) {
-        alert('Código do produto necessário para alteração.');
-        return;
-      }
-
+    async inserirOuAtualizar() {
       try {
-        // Faz a requisição PUT para alterar o produto existente
-        await axios.put(`https://5599-189-112-39-185.ngrok-free.app/produtos/${id}`, this.product);
-
-        alert(this.product.nome + ' atualizado com sucesso!');
-        this.clearForm();
+        if (this.isEditing) {
+          await axios.put(`http://localhost:5500/produtos/${this.produto.id}`, this.produto);
+          alert('Produto atualizado com sucesso!');
+        } else {
+          await axios.post('http://localhost:5500/produtos', this.produto);
+          alert('Produto cadastrado com sucesso!');
+        }
+        this.voltarParaLista();
       } catch (error) {
-        console.error('Erro ao alterar o produto: ', error);
-        alert('Erro ao alterar o produto');
+        console.error("Erro ao salvar produto:", error);
       }
     },
-
-    // Função para lidar com a imagem selecionada
-    onImageSelected(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = e => {
-          this.product.imagem = e.target.result; // Base64 ou caminho da imagem
-        };
-        reader.readAsDataURL(file);
-      }
-    },
-
-    // Método para excluir um produto
-    async excluir(id) {
-      if (!id) {
-        alert('Código do produto necessário para exclusão.');
-        return;
-      }
-      try {
-        // Faz a requisição DELETE para o servidor, removendo o produto com o id fornecido
-        await axios.delete(`https://5599-189-112-39-185.ngrok-free.app/produtos/${id}`);
-
-        confirm('Deseja !');
-        this.clearForm();
-      } catch (error) {
-        console.error('Erro ao excluir o produto: ', error);
-        alert('Erro ao excluir o produto');
-      }
+    voltarParaLista() {
+      this.$router.push({ path: '/listaCadastro' }); // Redireciona para a lista de produtos
     }
+  },
+  created() {
+    this.buscarProduto();
   }
 };
 </script>

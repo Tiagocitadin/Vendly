@@ -5,6 +5,7 @@ import Product from '../components/Product.vue'
 import Login from '../components/Login.vue'
 import CadastroCliente from '../components/CadastroCliente.vue'
 import CadastroProduto from '../components/CadastroProduto.vue'
+import ListaCadastro from '../components/ListaCadastro.vue'
 
 const routes = [
   {
@@ -41,7 +42,13 @@ const routes = [
             path: '/registro',
             name: 'Registro',
             component: Login
+          },
+          {
+            path: '/listaCadastro',
+            name: 'ListaCadastro',
+            component: ListaCadastro
           }
+
 
 ]
 

@@ -39,6 +39,7 @@ html, body {
   width: 100%;
   bottom: 0;
   left: 0;
+  margin-top: 110px;
 }
 
 .footer-content {
