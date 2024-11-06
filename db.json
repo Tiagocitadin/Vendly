@@ -2,83 +2,77 @@
   "produtos": [
     {
       "id": "2",
-      "title": "Placa Mãe H610M",
-      "description": "A Placa Mãe H610M garante desempenho e confiabilidade, suportando processadores Intel de 12ª geração e memória DDR4, ideal para PCs compactos e eficientes.",
+      "nome": "Placa Mãe H610M",
+      "descricao": "A Placa Mãe H610M garante desempenho e confiabilidade, suportando processadores Intel de 12ª geração e memória DDR4, ideal para PCs compactos e eficientes.",
       "estoque": 8,
-      "price": 1500,
-      "image": "/assets/PlacamaeH610M.jpeg"
+      "preco": 1500,
+      "imagem": "/assets/PlacamaeH610M.jpeg",
+      "maisVendido": true
     },
     {
       "id": "3",
-      "title": "Placa Mãe B550M",
-      "description": " A B550M é uma placa mãe compacta e potente, com suporte a processadores AMD Ryzen, PCIe 4.0 e memória DDR4, perfeita para desempenho extremo.",
-      "price": 750,
-      "image": "/assets/PlacamaeB550M.jpeg",
+      "nome": "Placa Mãe B550M",
+      "descricao": " A B550M é uma placa mãe compacta e potente, com suporte a processadores AMD Ryzen, PCIe 4.0 e memória DDR4, perfeita para desempenho extremo.",
+      "preco": 750,
+      "imagem": "/assets/PlacamaeB550M.jpeg",
       "estoque": 20,
       "maisVendido": true
     },
     {
       "id": "4",
-      "title": "Placa de Vídeo AMD Radeon RX",
-      "description": "A AMD Radeon RX entrega gráficos impressionantes com Ray Tracing e alta performance, ideal para jogos e criação de conteúdo.",
-      "price": 2800,
-      "image": "/assets/Placadevideorx.jpeg",
+      "nome": "Placa de Vídeo AMD Radeon RX",
+      "descricao": "A AMD Radeon RX entrega gráficos impressionantes com Ray Tracing e alta performance, ideal para jogos e criação de conteúdo.",
+      "preco": 2800,
+      "imagem": "/assets/Placadevideorx.jpeg",
       "estoque": 5,
       "maisVendido": true
     },
     {
       "id": "5",
-      "title": "Processador AMD Ryzen",
-      "description": "O AMD Ryzen combina potência e eficiência para jogos, multitarefas e criação de conteúdo com desempenho multinúcleo e suporte a overclock.",
-      "price": 5500,
-      "image": "/assets/ProcessadorAMDRyzen.jpeg",
+      "nome": "Processador AMD Ryzen",
+      "descricao": "O AMD Ryzen combina potência e eficiência para jogos, multitarefas e criação de conteúdo com desempenho multinúcleo e suporte a overclock.",
+      "preco": 5500,
+      "imagem": "/assets/ProcessadorAMDRyzen.jpeg",
       "estoque": 30,
-      "maisVendido": false
+      "maisVendido": true
     },
     {
       "id": "6",
-      "title": "Processador AMD Ryzen 1ª Geração",
-      "description": "O AMD Ryzen 1ª Geração entrega desempenho multitarefa eficiente, ideal para uso diário e jogos casuais, com arquitetura moderna e custo-benefício.",
-      "price": 250,
-      "image": "/assets/ProcessadorAMDRyzen1.jpeg",
+      "nome": "Processador AMD Ryzen 1ª Geração",
+      "descricao": "O AMD Ryzen 1ª Geração entrega desempenho multitarefa eficiente, ideal para uso diário e jogos casuais, com arquitetura moderna e custo-benefício.",
+      "preco": 250,
+      "imagem": "/assets/ProcessadorAMDRyzen1.jpeg",
       "estoque": 30,
-      "maisVendido": false
+      "maisVendido": true
     },
     {
       "id": "7",
-      "title": "Processador AMD Ryzen 2ª Geração",
-      "description": " O AMD Ryzen 2ª Geração oferece potência aprimorada e multitarefas eficientes, ideal para jogos e criação de conteúdo, com suporte a overclock e maior desempenho.",
-      "price": 750,
-      "image": "/assets/ProcessadorAMDRyzen2.jpeg",
+      "nome": "Processador AMD Ryzen 2ª Geração",
+      "descricao": " O AMD Ryzen 2ª Geração oferece potência aprimorada e multitarefas eficientes, ideal para jogos e criação de conteúdo, com suporte a overclock e maior desempenho.",
+      "preco": 750,
+      "imagem": "/assets/ProcessadorAMDRyzen2.jpeg",
       "estoque": 20,
-      "maisVendido": false
+      "maisVendido": true
     },
     {
       "id": "8",
-      "title": "Processador Intel Core",
-      "description": "O Processador Intel Core oferece desempenho avançado para jogos e produtividade, com maior velocidade e eficiência energética para uma experiência fluida",
-      "price": 2800,
-      "image": "/assets/ProcessadorIntel.jpeg",
+      "nome": "Processador Intel Core",
+      "descricao": "O Processador Intel Core oferece desempenho avançado para jogos e produtividade, com maior velocidade e eficiência energética para uma experiência fluida",
+      "preco": 2800,
+      "imagem": "/assets/ProcessadorIntel.jpeg",
       "estoque": 5,
-      "maisVendido": false
+      "maisVendido": true
     },
     {
       "id": "9",
-      "title": "Ventoinha de Alto Desempenho",
-      "description": " A Ventoinha de Alto Desempenho oferece resfriamento eficiente e silencioso, ideal para manter seu PC estável em uso intenso.",
-      "price": 5500,
-      "image": "/assets/Ventoinha.jpeg",
+      "nome": "Ventoinha de Alto Desempenho",
+      "descricao": " A Ventoinha de Alto Desempenho oferece resfriamento eficiente e silencioso, ideal para manter seu PC estável em uso intenso.",
+      "preco": 5500,
+      "imagem": "/assets/Ventoinha.jpeg",
       "estoque": 30,
-      "maisVendido": false
+      "maisVendido": true
     },
-    {
-      "id": "10",
-      "title": "Teste",
-      "description": "testando",
-      "estoque": 10,
-      "price": 25,
-      "image": "data:image/jpeg;base64,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"
-    },
+
     {
       "id": "65",
       "title": "gpu",

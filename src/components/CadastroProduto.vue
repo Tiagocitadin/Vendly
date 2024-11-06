@@ -6,35 +6,35 @@
     </div>
 
     <!-- Formulário de Cadastro de Produto -->
-    <div class="product-registration">
+    <div class="produto-registration">
       <form @submit.prevent="inserir">
         <div class="form-group">
           <label for="id">Codigo Produto <span>*</span></label>
-          <input type="text" id="id" v-model="product.id" placeholder="Codigo do Produto"  />
+          <input type="text" id="id" v-model="produto.id" placeholder="Codigo do Produto"  />
           <small v-if="errors.id" class="error">{{ errors.id }}</small>
         </div>
 
         <div class="form-group">
           <label for="nome">Título Produto <span>*</span></label>
-          <input type="text" id="nome" v-model="product.nome" placeholder="Título do Produto" required />
+          <input type="text" id="nome" v-model="produto.nome" placeholder="Título do Produto" required />
           <small v-if="errors.nome" class="error">{{ errors.nome }}</small>
         </div>
 
         <div class="form-group">
           <label for="descricao">Descrição <span>*</span></label>
-          <textarea id="descricao" v-model="product.descricao" placeholder="Descrição do Produto" maxlength="300" required></textarea>
+          <textarea id="descricao" v-model="produto.descricao" placeholder="Descrição do Produto" maxlength="300" required></textarea>
           <small v-if="errors.descricao" class="error">{{ errors.descricao }}</small>
         </div>
 
         <div class="form-group">
           <label for="quantidade">Quantidade em Estoque <span>*</span></label>
-          <input type="number" id="quantidade" v-model="product.quantidade" placeholder="Quantidade" required />
+          <input type="number" id="quantidade" v-model="produto.quantidade" placeholder="Quantidade" required />
           <small v-if="errors.quantidade" class="error">{{ errors.quantidade }}</small>
         </div>
 
         <div class="form-group">
           <label for="preco">Valor <span>*</span></label>
-          <input type="number" id="preco" v-model="product.preco" placeholder="R$" required />
+          <input type="number" id="preco" v-model="produto.preco" placeholder="R$" required />
           <small v-if="errors.preco" class="error">{{ errors.preco }}</small>
         </div>
 
@@ -42,14 +42,14 @@
           <label for="imagem">Imagem do Produto </label>
           <input type="file" id="imagem" @change="onImageSelected" accept="imagem/*" />
           <small v-if="errors.imagem" class="error">{{ errors.imagem }}</small>
-          <div v-if="product.imagem">
-            <img :src="product.imagem" alt="Pré-visualização da imagem" style="max-width: 200px; margin-top: 10px;" />
+          <div v-if="produto.imagem">
+            <img :src="produto.imagem" alt="Pré-visualização da imagem" style="max-width: 200px; margin-top: 10px;" />
           </div>
         </div>
 
         <button type="submit" class="submit-button">Cadastrar</button>
-        <button @click.prevent="alterar(product.id)" class="submit-button">Alterar</button>
-        <button @click.prevent="excluir(product.id)" class="submit-button delete-button">Excluir</button>
+        <button @click.prevent="alterar(produto.id)" class="submit-button">Alterar</button>
+        <button @click.prevent="excluir(produto.id)" class="submit-button delete-button">Excluir</button>
       </form>
     </div>
   </div>
@@ -71,7 +71,7 @@ function debounce(func, wait) {
 export default {
   data() {
     return {
-      product: {
+      produto: {
         id: '',
         nome: '',
         descricao: '',
@@ -80,54 +80,54 @@ export default {
         imagem: ''
       },
       errors: {},
-      debouncedCheckProduct: null, // Armazena a função debounce
+      debouncedCheckProduto: null, // Armazena a função debounce
     };
   },
   created() {
     // Inicializa a função debounce com atraso de 500ms
-    this.debouncedCheckProduct = debounce(this.checkProduct, 500);
+    this.debouncedCheckProduto = debounce(this.checkProduto, 500);
   },
   watch: {
     // Monitora o campo 'id' para verificar se o produto já existe
-    'product.id'(newId) {
+    'produto.id'(newId) {
       if (newId) {
         // Executa a função com debounce para aguardar a digitação terminar
-        this.debouncedCheckProduct(newId);
+        this.debouncedCheckProduto(newId);
       }
     }
   },
   methods: {
     // Método para verificar se o produto já existe
-    async checkProduct(newId) {
+    async checkProduto(newId) {
       try {
         // Faz uma requisição GET para verificar se o produto com o ID informado já existe
         const response = await axios.get(`https://5599-189-112-39-185.ngrok-free.app/produtos/${newId}`);
 
         // Se o produto for encontrado, preenche os campos do formulário com as informações
         if (response.data) {
-          this.product.nome = response.data.nome;
-          this.product.descricao = response.data.descricao;
-          this.product.quantidade = response.data.quantidade;
-          this.product.preco = response.data.preco;
-          this.product.imagem = "https://5599-189-112-39-185.ngrok-free.app" + response.data.imagem;
+          this.produto.nome = response.data.nome;
+          this.produto.descricao = response.data.descricao;
+          this.produto.quantidade = response.data.quantidade;
+          this.produto.preco = response.data.preco;
+          this.produto.imagem = "https://5599-189-112-39-185.ngrok-free.app" + response.data.imagem;
           alert('Produto encontrado e formulário preenchido.');
         } else {
           // Se não houver dados no retorno
           this.clearForm();
-          this.product.id = newId;
+          this.produto.id = newId;
           alert('Produto não encontrado. Preencha os dados para cadastrar.');
         }
       } catch (error) {
         // Se o produto não for encontrado, limpa os campos para permitir um novo cadastro
         this.clearForm();
-        this.product.id = newId; // Mantém o código preenchido
+        this.produto.id = newId; // Mantém o código preenchido
         alert('Produto não encontrado. Preencha os dados para cadastrar.');
       }
     },
     
     // Método para limpar o formulário
     clearForm() {
-      this.product = {
+      this.produto = {
         id: '', // Mantém o código do produto
         nome: '',
         descricao: '',
@@ -142,16 +142,16 @@ export default {
       this.errors = {}; // Limpa os erros antes de verificar o formulário
 
       // Simulação de validação
-      if (!this.product.nome) {
+      if (!this.produto.nome) {
         this.errors.nome = 'O título do produto é obrigatório';
       }
-      if (!this.product.descricao) {
+      if (!this.produto.descricao) {
         this.errors.descricao = 'A descrição do produto é obrigatória';
       }
-      if (!this.product.quantidade) {
+      if (!this.produto.quantidade) {
         this.errors.quantidade = 'A quantidade em quantidade é obrigatória';
       }
-      if (!this.product.preco) {
+      if (!this.produto.preco) {
         this.errors.preco = 'O valor do produto é obrigatório';
       }
 
@@ -162,7 +162,7 @@ export default {
 
       try {
         // Verificar se já existe um produto com o mesmo ID
-        const response = await axios.get(`https://5599-189-112-39-185.ngrok-free.app/produtos?id=${this.product.id}`);
+        const response = await axios.get(`https://5599-189-112-39-185.ngrok-free.app/produtos?id=${this.produto.id}`);
 
         // Se o produto já existir, impedir o cadastro
         if (response.data.length > 0) {
@@ -170,9 +170,9 @@ export default {
           return;
         }
           // Enviar o produto para o db.json usando a API do json-server
-          await axios.post('https://5599-189-112-39-185.ngrok-free.app/produtos', this.product);
+          await axios.post('https://5599-189-112-39-185.ngrok-free.app/produtos', this.produto);
 
-          alert(this.product.nome + ' cadastrado com sucesso!');
+          alert(this.produto.nome + ' cadastrado com sucesso!');
 
           // Limpa o formulário após o cadastro
           this.clearForm();
@@ -194,9 +194,9 @@ export default {
 
       try {
         // Faz a requisição PUT para alterar o produto existente
-        await axios.put(`https://5599-189-112-39-185.ngrok-free.app/produtos/${id}`, this.product);
+        await axios.put(`https://5599-189-112-39-185.ngrok-free.app/produtos/${id}`, this.produto);
 
-        alert(this.product.nome + ' atualizado com sucesso!');
+        alert(this.produto.nome + ' atualizado com sucesso!');
         this.clearForm();
       } catch (error) {
         console.error('Erro ao alterar o produto: ', error);
@@ -210,7 +210,7 @@ export default {
       if (file) {
         const reader = new FileReader();
         reader.onload = e => {
-          this.product.imagem = e.target.result; // Base64 ou caminho da imagem
+          this.produto.imagem = e.target.result; // Base64 ou caminho da imagem
         };
         reader.readAsDataURL(file);
       }
@@ -261,7 +261,7 @@ export default {
 }
 
 /* Grid principal do formulário */
-.product-registration {
+.produto-registration {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 15px;
@@ -354,7 +354,7 @@ export default {
 
 /* Responsividade */
 @media (max-width: 768px) {
-  .product-registration {
+  .produto-registration {
     grid-template-columns: 1fr;
     gap: 10px;
   }

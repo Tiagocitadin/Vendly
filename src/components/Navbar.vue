@@ -1,7 +1,8 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link>
-    <router-link to="/product">Produtos</router-link>
+    <router-link to="/produto
+    ">Produtos</router-link>
     <router-link to="/carrinho" class="carrinho-link">
       <div class="carrinho-icon">
         <img src="/src/img/carrinho-de-compras (1).png" alt="Carrinho de compra" />
@@ -12,11 +13,13 @@
     </router-link>
     
       <!-- Lista de Produtos -->
-    <div class="product-list">
-      <div v-for="product in filteredProducts" :key="product.id" class="product-item">
-        <h3>{{ product.nome }}</h3>
-        <p>{{ product.descricao }}</p>
-        <p>Preço: R$ {{ product.preco.toFixed(2) }}</p>
+    <div class="produto
+    -list">
+      <div v-for="produto
+       in filteredProdutos" :key="produto.id" class="produto-item">
+        <h3>{{ produto.nome }}</h3>
+        <p>{{ produto.descricao }}</p>
+        <p>Preço: R$ {{ produto.preco.toFixed(2) }}</p>
       </div>
     </div>
 
@@ -32,7 +35,7 @@ export default {
   data() {
     return {
       searchQuery: '', // Termo de busca inserido pelo usuário
-      products: [], // Produtos serão carregados a partir da API
+      produtos: [], // Produtos serão carregados a partir da API
     };
   },
   computed: {
@@ -42,26 +45,26 @@ export default {
     },
     
     // Filtra os produtos com base no termo de busca
-    filteredProducts() {
+    filteredProdutos() {
       // Se o campo de busca estiver vazio, retorna todos os produtos
       if (!this.searchQuery) {
-        return this.products;
+        return this.produtos;
       }
       
       // Converte o termo de busca para minúsculas e filtra pelo título ou descrição
       const searchTerm = this.searchQuery.toLowerCase();
-      return this.products.filter(product =>
-        product.nome.toLowerCase().includes(searchTerm) ||
-        product.descricao.toLowerCase().includes(searchTerm)
+      return this.produtos.filter(produto =>
+        produto.nome.toLowerCase().includes(searchTerm) ||
+        produto.descricao.toLowerCase().includes(searchTerm)
       );
     }
   },
   methods: {
     // Método para buscar os produtos da API local
-    fetchProducts() {
-      axios.get('http://localhost:5500/products') // Requisição GET para a API local
+    fetchProdutos() {
+      axios.get('http://localhost:5500/produtos') // Requisição GET para a API local
         .then(response => {
-          this.products = response.data.products; // Armazena os produtos recebidos da API
+          this.produtos = response.data.produtos; // Armazena os produtos recebidos da API
         })
         .catch(error => {
           console.error('Erro ao buscar produtos:', error); // Exibe erro no console, se houver
@@ -69,14 +72,14 @@ export default {
     },
     
     // Método de busca (opcional, já que a busca é feita dinamicamente)
-    searchProducts() {
+    searchProdutos() {
       // Não é necessário fazer nada, pois a busca é dinâmica com o v-model
     }
   },
   
   // Faz a requisição à API assim que o componente é montado
   mounted() {
-    this.fetchProducts();
+    this.fetchProdutos();
   }
 }
 </script>

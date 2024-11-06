@@ -4,23 +4,23 @@
 
       <template v-if="produtosCarrinho.length"> 
 
-        <div v-for="(product, index) in produtosCarrinho" :key="index" class="item">
-                <div class="remove" @click="this.$store.dispatch('removerDoCarrinho', product.id)">Remove item</div>
+        <div v-for="(produto, index) in produtosCarrinho" :key="index" class="item">
+                <div class="remove" @click="this.$store.dispatch('removerDoCarrinho', produto.id)">Remove item</div>
                 <div class="photo">
-                  <img :src="product.imagem"  alt="produto">
+                  <img :src="produto.imagem"  alt="produto">
                 </div>
         
-                <div class="descricao">{{ product.nome }}</div>
+                <div class="descricao">{{ produto.nome }}</div>
         
                 <div class="preco">          
                   <span class="quantidade-area">
-                    <button :disabled="product.quantidade <=1" @click="product.quantidade --">-</button>
+                    <button :disabled="produto.quantidade <=1" @click="produto.quantidade --">-</button>
         
-                    <span class="quantidade">{{ product.quantidade }}</span>
-                    <button @click="product.quantidade ++">+</button>
+                    <span class="quantidade">{{ produto.quantidade }}</span>
+                    <button @click="produto.quantidade ++">+</button>
                   </span>
         
-                  <span class="amount"> R$ {{ (product.preco * product.quantidade).toFixed(2) }}</span>
+                  <span class="amount"> R$ {{ (produto.preco * produto.quantidade).toFixed(2) }}</span>
                   
                 </div>               
               </div>

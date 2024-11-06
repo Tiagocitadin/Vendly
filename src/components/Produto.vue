@@ -1,26 +1,26 @@
 <template>
   <div class="produtos">
-    <div class="products">
+    <div class="produtos">
       
-      <div v-for="(product, index) in products" :key="index" class="product" :class="{noCarrinho : produtoNoCarrinho(product)}">
-        <div class="product-imagem" :style="{backgroundImage: 'url(https://5599-189-112-39-185.ngrok-free.app' + product.imagem + ')'}">
+      <div v-for="(produto, index) in produtos" :key="index" class="produto" :class="{noCarrinho : produtoNoCarrinho(product)}">
+        <div class="produto-imagem" :style="{backgroundImage: 'url(https://5599-189-112-39-185.ngrok-free.app' + product.imagem + ')'}">
         </div>
 
         <div>
-          <h4>{{ product.nome }}</h4>
-          <p>{{ product.descricao }}</p>
+          <h4>{{ produto.nome }}</h4>
+          <p>{{ produto.descricao }}</p>
         </div>
 
         <div>
-          <p class="preco"> R$ {{ product.preco }}</p> 
+          <p class="preco"> R$ {{ produto.preco }}</p> 
         </div>
      
         <div class="parcela">
-          <p> 10x R$ {{ calculoParcela(product.preco).toFixed(2) }}</p>
+          <p> 10x R$ {{ calculoParcela(produto.preco).toFixed(2) }}</p>
         </div>
     
-        <button v-if="!produtoNoCarrinho(product)" @click="adicionarAoCarrinho(product)">Adicionar ao Carrinho</button>  
-        <button v-else class="remove" @click="removerDoCarrinho(product.id)">Remover do Carrinho</button>     
+        <button v-if="!produtoNoCarrinho(produto)" @click="adicionarAoCarrinho(produto)">Adicionar ao Carrinho</button>  
+        <button v-else class="remove" @click="removerDoCarrinho(produto.id)">Remover do Carrinho</button>     
       </div>       
     </div> 
   </div>
@@ -28,14 +28,14 @@
 
 <script>
 export default {
-  name: 'Product',
+  name: 'Produto',
   data() {
     return {};
   },
 
   computed: {    
-    products() {
-      return this.$store.state.products; // Obtém os produtos do state
+    produtos() {
+      return this.$store.state.produtos; // Obtém os produtos do state
     },
     produtosCarrinho() {
       return this.$store.state.produtosCarrinho; // Obtém os produtos no carrinho
@@ -43,17 +43,17 @@ export default {
   },
 
   methods: {
-    adicionarAoCarrinho(product) {
-      product.quantidade = 1;
-      this.$store.dispatch('adicionarAoCarrinho', product); // Adiciona o produto ao carrinho
+    adicionarAoCarrinho(produto) {
+      produto.quantidade = 1;
+      this.$store.dispatch('adicionarAoCarrinho', produto); // Adiciona o produto ao carrinho
     },
     
-    removerDoCarrinho(productId) {
-      this.$store.dispatch('removerDoCarrinho', productId); // Remove o produto do carrinho
+    removerDoCarrinho(produtoId) {
+      this.$store.dispatch('removerDoCarrinho', produtoId); // Remove o produto do carrinho
     },
     
-    produtoNoCarrinho(product) {
-      return this.produtosCarrinho.some(item => item.id === product.id); // Verifica se o produto já está no carrinho
+    produtoNoCarrinho(produto) {
+      return this.produtosCarrinho.some(item => item.id === produto.id); // Verifica se o produto já está no carrinho
     },
     
     calculoParcela(preco) {
@@ -64,19 +64,19 @@ export default {
 
   // Chama a action para buscar os produtos do db.json
   created() {
-    this.$store.dispatch('fetchProducts'); // Garante que os produtos sejam buscados ao criar o componente
+    this.$store.dispatch('fetchProdutos'); // Garante que os produtos sejam buscados ao criar o componente
   }
 }
 </script>
 
 <style lang="scss">
 .produtos {
-  .products {
+  .produtos {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 
-    .product {
+    .produto {
       flex: 0 0 30%;
       box-sizing: border-box;  
       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
