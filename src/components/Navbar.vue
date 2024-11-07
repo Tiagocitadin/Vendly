@@ -62,7 +62,7 @@ export default {
   methods: {
     // Método para buscar os produtos da API local
     fetchProdutos() {
-      axios.get('http://localhost:5500/produtos') // Requisição GET para a API local
+      axios.get('https://c088-189-112-39-185.ngrok-free.app/produtos') // Requisição GET para a API local
         .then(response => {
           this.produtos = response.data.produtos; // Armazena os produtos recebidos da API
         })
@@ -79,7 +79,7 @@ export default {
   
   // Faz a requisição à API assim que o componente é montado
   mounted() {
-    this.fetchProdutos();
+    this.$store.dispatch('carregarProdutos');
   }
 }
 </script>

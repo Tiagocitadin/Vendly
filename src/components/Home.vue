@@ -5,15 +5,18 @@
       <h1 class="animatedTitle">Vendly - A Plataforma Completa para Vender Produtos de PC</h1>
       <h4 class="animatedSubtitle">Seu marketplace especializado em tecnologia, pronto para impulsionar suas vendas online</h4>    
     </div>  
-    <div class="carousel">
+    
+    <!-- Carrossel -->
+    <div class="carousel" @mouseenter="stopCarousel" @mouseleave="startCarousel">
       <div class="carousel-container" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
-        <!-- Iterar sobre a lista de produtos mais vendidos com v-for -->
         <div class="carousel-item" v-for="(produto, index) in maisVendidos" :key="index">
           <img :src="produto.imagem" :alt="produto.nome" />
           <h3>{{ produto.nome }}</h3>
         </div>
       </div>
     </div> 
+  
+
   </div>
 </template>
 
@@ -24,9 +27,9 @@ export default {
   name: 'Home',
   data() {
     return {
-      produtos: [], // Array para armazenar os produtos carregados
-      currentIndex: 0, // Índice atual do carrossel
-      intervalId: null // Armazena o ID do intervalo para o carrossel automático
+      produtos: [],       // Armazena os produtos carregados
+      currentIndex: 0,    // Índice atual do carrossel
+      intervalId: null    // ID do intervalo para o carrossel automático
     };
   },
   computed: {
@@ -38,12 +41,12 @@ export default {
   methods: {
     produtosHome() {
       axios
-        .get('http://localhost:5500/produtos') // Certifique-se de que o json-server está rodando nesta porta
+        .get('http://localhost:5500/produtos')
         .then(response => {
-          this.produtos = response.data; // Armazena os produtos na propriedade 'produtos'
+          this.produtos = response.data;
         })
         .catch(error => {
-          console.error('Erro ao carregar produtos: ', error);
+          console.error('Erro ao carregar produtos:', error);
         });
     },
     startCarousel() {
@@ -55,14 +58,15 @@ export default {
     stopCarousel() {
       // Para o carrossel automático
       clearInterval(this.intervalId);
+      this.intervalId = null;
     }
   },
   mounted() {
-    this.produtosHome(); // Carrega os produtos ao montar o componente
+    this.produtosHome();  // Carrega os produtos ao montar o componente
     this.startCarousel(); // Inicia o carrossel automático
   },
   beforeDestroy() {
-    this.stopCarousel(); // Para o carrossel quando o componente for destruído
+    this.stopCarousel();  // Para o carrossel quando o componente for destruído
   }
 };
 </script>
@@ -128,16 +132,30 @@ body {
 .carousel {
   overflow: hidden;
   width: 100%;
+  height: 200px;
   max-width: 1200px;
   margin: 30px auto;
-  background-color: #ffffff;
+  background-color: white;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .carousel-container {
   display: flex;
-  transition: transform 0.5s
+  transition: transform 0.5s ease-in-out;
+}
 
+.carousel-item {
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 20px;
+}
+.carousel-item img {
+  max-width: 50%; /* Define um tamanho máximo para a largura da imagem */
+  height: auto; /* Mantém a proporção da imagem */
+  object-fit: contain; /* Garante que a imagem se ajuste dentro do contêiner sem cortar */
+  margin: 0 auto; /* Centraliza a imagem no contêiner */
 }
 </style>

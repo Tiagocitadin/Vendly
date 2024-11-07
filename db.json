@@ -34,7 +34,7 @@
       "preco": 5500,
       "imagem": "/assets/ProcessadorAMDRyzen.jpeg",
       "estoque": 30,
-      "maisVendido": true
+      "maisVendido": false
     },
     {
       "id": "6",
@@ -43,7 +43,7 @@
       "preco": 250,
       "imagem": "/assets/ProcessadorAMDRyzen1.jpeg",
       "estoque": 30,
-      "maisVendido": true
+      "maisVendido": false
     },
     {
       "id": "7",
@@ -52,7 +52,7 @@
       "preco": 750,
       "imagem": "/assets/ProcessadorAMDRyzen2.jpeg",
       "estoque": 20,
-      "maisVendido": true
+      "maisVendido": false
     },
     {
       "id": "8",
@@ -61,7 +61,7 @@
       "preco": 2800,
       "imagem": "/assets/ProcessadorIntel.jpeg",
       "estoque": 5,
-      "maisVendido": true
+      "maisVendido": false
     },
     {
       "id": "9",
@@ -70,7 +70,7 @@
       "preco": 5500,
       "imagem": "/assets/Ventoinha.jpeg",
       "estoque": 30,
-      "maisVendido": true
+      "maisVendido": false
     },
 
     {
